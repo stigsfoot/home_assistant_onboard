@@ -3,6 +3,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:home_assistant_onboard/screens/about.dart';
 import 'package:home_assistant_onboard/screens/onboarding.dart';
+import 'package:home_assistant_onboard/screens/screens.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           '/about': (context) => AboutScreen(),
           '/onboarding': (context) => OnboardingScreen(),
           '/profile': (context) => ProfileScreen(),
-          '/about': (context) => AboutScreen(),
+          '/questions': (context) => QuestionsScreen(),
         },
 
         // Theme
@@ -28,7 +29,6 @@ class MyApp extends StatelessWidget {
             // your customizations here
             brightness: Brightness.dark,
           ),
-        ),
       );
   }
 }

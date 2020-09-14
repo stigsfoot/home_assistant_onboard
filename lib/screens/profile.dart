@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:home_assistant_onboard/shared/navigation.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('profile'),
-        backgroundColor: Colors.blue,
+        title: Text('User Profile'),
+        backgroundColor: Colors.black,
       ),
       body: Center(
-        child: Text('This is the profile screen'),
+        child: Text('Profile stub'),
       ),
+      bottomNavigationBar: AppBottomNav(),
     );
   }
 }

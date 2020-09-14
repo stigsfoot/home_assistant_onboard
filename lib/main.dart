@@ -1,9 +1,16 @@
+//import 'dart:html';
+
+// Automagically imported
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:home_assistant_onboard/screens/reminders.dart';
 import 'package:home_assistant_onboard/screens/about.dart';
 import 'package:home_assistant_onboard/screens/onboarding.dart';
 import 'package:home_assistant_onboard/screens/screens.dart';
+
+// fewer lines
+// import 'screens/screens.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,7 +28,7 @@ class MyApp extends StatelessWidget {
           '/about': (context) => AboutScreen(),
           '/onboarding': (context) => OnboardingScreen(),
           '/profile': (context) => ProfileScreen(),
-          '/questions': (context) => QuestionsScreen(),
+          '/reminders': (context) => RemindersScreen(),
         },
 
         // Theme

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_assistant_onboard/shared/navigation.dart';
 
 class OnboardingScreen extends StatelessWidget {
   @override
@@ -11,6 +12,7 @@ class OnboardingScreen extends StatelessWidget {
       body: Center(
         child: Text('Onboarding custom widget'),
       ),
+      bottomNavigationBar: AppBottomNav(),
     );
   }
 }

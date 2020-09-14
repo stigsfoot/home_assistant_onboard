@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_assistant_onboard/shared/navigation.dart';
 
 class QuestionsScreen extends StatelessWidget {
   @override
@@ -6,11 +7,12 @@ class QuestionsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Questions'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.black,
       ),
       body: Center(
         child: Text('Onboarding questions go here'),
       ),
+      bottomNavigationBar: AppBottomNav(),
     );
   }
 }

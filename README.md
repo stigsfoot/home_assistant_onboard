@@ -1,4 +1,4 @@
-# home_assistant_onboard
+# Home Assistant Onboard
  ## Sample Flutter+Firebase App to demonstrate Firebase Privacy Extension
 
  TODO: Write a project description

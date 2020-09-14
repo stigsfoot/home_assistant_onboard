@@ -11,6 +11,7 @@ class QuestionsScreen extends StatelessWidget {
       ),
       body: Center(
         child: Text('Onboarding questions go here'),
+      
       ),
       bottomNavigationBar: AppBottomNav(),
     );

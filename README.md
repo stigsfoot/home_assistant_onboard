@@ -1,7 +1,8 @@
 # Home Assistant Onboard
  ## Sample Flutter+Firebase App to demonstrate Firebase Privacy Extension
 
- TODO: Write a project description
+Timely, relevant, and contextual notification virtual assistant  service with secure dashboard for a homeowner, renter,  or property manager to have a pulse of their home and related expenses between buying and selling.
+
 ## Installation
 TODO: Describe the installation process
 ## Usage

@@ -1,5 +1,5 @@
 # Home Assistant Onboard
- ## Sample Flutter+Firebase App to demonstrate Firebase Privacy Extension
+ ## Flutter+Firebase App to demonstrate Firebase Privacy Extension
 
 Timely, relevant, and contextual notification virtual assistant  service with secure dashboard for a homeowner, renter,  or property manager to have a pulse of their home and related expenses between buying and selling.
 

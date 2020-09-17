@@ -6,16 +6,19 @@ Timely, relevant, and contextual notification virtual assistant  service with se
 ## Installation
 TODO: Describe the installation process
 ## Usage
-TODO: Write usage instructions
+git clone https://github.com/stigsfoot/home_assistant_onboard.git home_assistant_onboard
+cd home_assistant_onboard
+
+flutter run
 ## Contributing
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
+1. Clone or fork it!
+2. Create your feature branch: `git checkout -b home_assistant_onboard`
 3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
+4. Push to the branch: `git push origin home_assistant_onboard`
 5. Submit a pull request :D
-## History
-TODO: Write history
+
+
 ## Credits
-TODO: Write credits
-## License
-TODO: Write license
+Props to Jeff Delaney sign up as a Pro and support his [fireship.io courses](https://fireship.io).
+
+

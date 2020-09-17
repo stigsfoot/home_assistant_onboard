@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
         },
 
         // Theme
-        // Theme
         theme: ThemeData(
           fontFamily: 'Nunito',
           bottomAppBarTheme: BottomAppBarTheme(

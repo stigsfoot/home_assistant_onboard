@@ -8,7 +8,7 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      //future: Global.assetsRef.getData(),
+      // future: Global.assetsRef.getData(),
       builder: (BuildContext context, AsyncSnapshot snap) {
         if (snap.hasData) {
           List<Asset> assets = snap.data;
@@ -36,6 +36,7 @@ class OnboardingScreen extends StatelessWidget {
           );
         } else {
           return LoadingScreen();
+          // Reminder: MockScreen() goes here if all else fails :D
         }
       },
     );

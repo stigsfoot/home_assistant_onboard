@@ -1,5 +1,3 @@
-//import 'dart:html';
-
 // Automagically imported
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -32,9 +30,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => LoginScreen(),
           //'/about': (context) => AboutScreen(),
-          //'/onboarding': (context) => OnboardingScreen(),
           '/profile': (context) => ProfileScreen(),
           '/reminders': (context) => RemindersScreen(),
+          '/onboarding': (context) => OnboardingScreen(),
         },
 
         // Theme

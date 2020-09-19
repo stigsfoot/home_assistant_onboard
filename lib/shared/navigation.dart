@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AppBottomNav extends StatelessWidget {
-  // ref https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(

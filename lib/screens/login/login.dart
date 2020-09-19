@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../services/services.dart';
+import 'package:snack/snack.dart';
 
 class LoginScreen extends StatefulWidget {
   createState() => LoginScreenState();
@@ -49,9 +50,14 @@ class LoginScreenState extends State<LoginScreen> {
 
             // Privacy settings
             PrivacySettingsButton(
-              text: 'Privacy Settings',
-              icon: FontAwesomeIcons.lock,
-              color: Colors.green[300],
+              text: 'Privacy consent has been setup',
+              icon: FontAwesomeIcons.cog,
+              color: Colors.grey[300],
+            ),
+            Text(
+              'You can always go back to review  and update your privacy settings.',
+              style: Theme.of(context).textTheme.bodyText1,
+              textAlign: TextAlign.center,
             ),
             PrivacySettingsButton(),
             LoginButton(text: 'Access without logging in'),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/services.dart';
 import 'package:provider/provider.dart';
+import 'package:home_assistant_onboard/shared/navigation.dart';
 
 class ProfileScreen extends StatelessWidget {
   final AuthService auth = AuthService();
@@ -13,8 +14,9 @@ class ProfileScreen extends StatelessWidget {
     if (user != null) {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.deepOrange,
-          title: Text(user.displayName ?? 'Guest'),
+          backgroundColor: Colors.black87,
+          title:
+              Text('House ' + user.displayName + ' of Winterfell ' ?? 'Guest'),
         ),
         body: Center(
           child: Column(
@@ -34,11 +36,12 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               Text(user.email ?? '',
-                  style: Theme.of(context).textTheme.headline5),
+                  style: Theme.of(context).textTheme.caption),
+              
               Spacer(),
               FlatButton(
                   child: Text('logout'),
-                  color: Colors.red,
+                  color: Colors.black87,
                   onPressed: () async {
                     await auth.signOut();
                     Navigator.of(context)
@@ -48,6 +51,7 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
         ),
+        bottomNavigationBar: AppBottomNav(),
       );
     } else {
       return Text('not logged in...');

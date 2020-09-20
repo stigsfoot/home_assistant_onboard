@@ -35,7 +35,7 @@ class OnboardingScreen extends StatelessWidget {
             bottomNavigationBar: AppBottomNav(),
           );
         } else {
-          return LoadingScreen();
+          return ProfileScreen();
           // Reminder: MockScreen() goes here if all else fails :D
         }
       },

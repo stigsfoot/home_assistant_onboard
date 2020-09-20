@@ -52,7 +52,7 @@ class LoginScreenState extends State<LoginScreen> {
             PrivacySettingsButton(
               text: 'Privacy consent has been setup',
               icon: FontAwesomeIcons.cog,
-              color: Colors.grey[300],
+              color: Colors.lightGreen,
             ),
             Text(
               'You can always go back to review  and update your privacy settings.',

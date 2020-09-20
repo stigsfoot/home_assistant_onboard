@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => LoginScreen(),
           //'/about': (context) => AboutScreen(),
           '/profile': (context) => ProfileScreen(),
-          '/reminders': (context) => RemindersScreen(),
+          //'/reminders': (context) => RemindersScreen(),
           '/onboarding': (context) => OnboardingScreen(),
         },
 

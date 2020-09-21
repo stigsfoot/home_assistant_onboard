@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../services/services.dart';
-import 'package:snack/snack.dart';
 
 class LoginScreen extends StatefulWidget {
   createState() => LoginScreenState();
@@ -35,12 +34,15 @@ class LoginScreenState extends State<LoginScreen> {
             FlutterLogo(
               size: 150,
             ),
+
             Text(
               'Welcome',
               style: Theme.of(context).textTheme.headline5,
               textAlign: TextAlign.center,
             ),
             Text('Home Assistant remembers so you do not have to.'),
+
+            // Button
             LoginButton(
               text: 'LOGIN WITH GOOGLE',
               icon: FontAwesomeIcons.google,
@@ -50,13 +52,14 @@ class LoginScreenState extends State<LoginScreen> {
 
             // Privacy settings
             PrivacySettingsButton(
-              text: 'Privacy consent has been setup',
+              text: 'Update privacy settings',
               icon: FontAwesomeIcons.cog,
               color: Colors.lightGreen,
             ),
+
             Text(
-              'You can always go back to review  and update your privacy settings.',
-              style: Theme.of(context).textTheme.bodyText1,
+              'You can return to review and update your privacy settings.',
+              style: Theme.of(context).textTheme.caption,
               textAlign: TextAlign.center,
             ),
             PrivacySettingsButton(),
@@ -101,7 +104,7 @@ class LoginButton extends StatelessWidget {
   }
 }
 
-// Privacy Settings widget we can reuse
+// Privacy Settings widget
 class PrivacySettingsButton extends StatelessWidget {
   final Color color;
   final IconData icon;

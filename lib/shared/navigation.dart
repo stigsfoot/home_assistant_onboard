@@ -6,7 +6,7 @@ class AppBottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: Color(0xFF6200EE),
+      backgroundColor: Color(0xFF383838),
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white.withOpacity(.60),
       selectedFontSize: 14,
@@ -16,8 +16,7 @@ class AppBottomNav extends StatelessWidget {
             icon: Icon(FontAwesomeIcons.houseUser, size: 25),
             title: Text('Home')),
         BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.calendarCheck,
-                size: 30),
+            icon: Icon(FontAwesomeIcons.calendarCheck, size: 30),
             title: Text('Assistant')),
         BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.userCircle, size: 25),

@@ -48,7 +48,10 @@ class ProfileScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(25),
-                child: Text('8 upcoming home related reminders '),
+                child: Text(
+                  '8 upcoming home related reminders ',
+                  style: Theme.of(context).textTheme.headline5,
+                  textAlign: TextAlign.center),
               ),
               Spacer(),
 

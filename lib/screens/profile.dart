@@ -15,6 +15,7 @@ class ProfileScreen extends StatelessWidget {
 
     if (user != null) {
       return Scaffold(
+        
         appBar: AppBar(
           backgroundColor: Colors.black87,
           title: Text(
@@ -38,26 +39,44 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               Padding(
-                padding: const EdgeInsets.all(25),
+                padding: const EdgeInsets.all(10),
                 child: Text(user.email ?? '',
                     style: Theme.of(context).textTheme.caption),
               ),
               Padding(
-                padding: const EdgeInsets.all(25),
-                child: Text('201 North Union Street, Virginia'),
+                padding: const EdgeInsets.all(10),
+                child: Text('8 upcoming home related reminders ',
+                    style: Theme.of(context).textTheme.headline5,
+                    textAlign: TextAlign.center),
               ),
+
               Padding(
-                padding: const EdgeInsets.all(25),
-                child: Text(
-                  '8 upcoming home related reminders ',
-                  style: Theme.of(context).textTheme.headline5,
-                  textAlign: TextAlign.center),
+                padding: const EdgeInsets.all(10),
+                child: TextField(
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Update Address',
+                  ),
+                ),
+              ),
+              
+              
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Update Password',
+                  ),
+                ),
               ),
               Spacer(),
 
               FlatButton(
                   child: Text('Logout'),
-                  padding: EdgeInsets.all(30),
+                  padding: EdgeInsets.all(25),
                   color: Colors.black87,
                   onPressed: () async {
                     await auth.signOut();
@@ -72,12 +91,14 @@ class ProfileScreen extends StatelessWidget {
                 text: 'Update privacy settings',
                 icon: FontAwesomeIcons.cog,
                 color: Colors.lightGreen,
+                
               ),
             ],
           ),
         ),
         bottomNavigationBar: AppBottomNav(),
       );
+      
     } else {
       return Text('User is not authenticated');
     }

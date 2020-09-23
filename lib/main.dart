@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:home_assistant_onboard/screens/reminders.dart';
 import 'package:home_assistant_onboard/screens/screens.dart';
 import 'package:provider/provider.dart';
 import 'package:home_assistant_onboard/services/services.dart';

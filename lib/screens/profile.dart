@@ -19,7 +19,7 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.black87,
           title: Text(
-              'House ' + user.displayName + ' of Winterfell ' ?? 'Anonymous'),
+              user.displayName + ' of Winterfell ' ?? 'Anonymous'),
         ),
         body: Center(
           child: Column(

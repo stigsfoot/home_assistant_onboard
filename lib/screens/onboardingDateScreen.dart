@@ -47,14 +47,15 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
     } else {
       // All dates have been selected, go to next dashboard screen
       print('All Good !');
-
-      /// TODO: If you want to send any of the data selected to firebase,
-      /// Do it here
-
       // Set onboarding as completed Locally
       auth.setOnboardingCompleteLocally();
       // Set onboarding as completed in user Collection
-      auth.setOnboardingComplete();
+      // Aslo pass in the data to be uplaoded to Firebase
+      auth.setOnboardingComplete(
+        widget.selectedAssetText,
+        installedDate,
+        remindedDate,
+      );
       // Navigate to the onboarding Screen again, which will detect
       // that onboardingComplete variable is now true
       // And it will render the home dashboard Screen

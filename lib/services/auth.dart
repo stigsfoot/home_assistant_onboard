@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import './services.dart';
 import 'dart:async';
 
 class AuthService {
@@ -25,12 +26,20 @@ class AuthService {
   }
 
   // Set onboarding complete in users Collection for when the user completes the onboarding
-  Future<void> setOnboardingComplete() async {
+  // And also upload selected data to Firebase
+  Future<void> setOnboardingComplete(
+    String selectedAssetText,
+    DateTime selectedInstalledDate,
+    DateTime selectedReminderDate,
+  ) async {
     FirebaseUser user = await getUser;
     await _db.collection('users').document(user.uid).setData(
       {
         'uid': user.uid,
         'isOnboardingCompleted': true,
+        'selectedAsset': selectedAssetText,
+        'installedDate': selectedInstalledDate,
+        'remindingDate': selectedReminderDate,
       },
     );
   }

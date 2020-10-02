@@ -15,6 +15,9 @@ class LoginScreenState extends State<LoginScreen> {
     auth.getUser.then(
       (user) {
         if (user != null) {
+          /// Update user last Online, each time
+          /// the user opens the App, if the user is logged in.
+          auth.updateUserData(user);
           Navigator.pushReplacementNamed(context, '/onboarding');
         }
       },
@@ -55,6 +58,7 @@ class LoginScreenState extends State<LoginScreen> {
               text: 'Update privacy settings',
               icon: FontAwesomeIcons.cog,
               color: Colors.lightGreen,
+              onPress: () {},
             ),
 
             Text(
@@ -63,7 +67,14 @@ class LoginScreenState extends State<LoginScreen> {
               textAlign: TextAlign.center,
             ),
             PrivacySettingsButton(),
-            LoginButton(text: 'Access without logging in'),
+            LoginButton(
+              text: 'Access without logging in',
+              // TODO: Implement this !
+              // Implement properly, User always gets created, even as anon
+              // Error on Profile Screen, as Name in null
+              // loginMethod: auth.anonLogin,
+              loginMethod: () {},
+            )
           ],
         ),
       ),
@@ -109,8 +120,10 @@ class PrivacySettingsButton extends StatelessWidget {
   final Color color;
   final IconData icon;
   final String text;
+  final Function onPress;
 
-  const PrivacySettingsButton({Key key, this.text, this.icon, this.color})
+  const PrivacySettingsButton(
+      {Key key, this.text, this.icon, this.color, this.onPress})
       : super(key: key);
 
   @override
@@ -122,6 +135,7 @@ class PrivacySettingsButton extends StatelessWidget {
         icon: Icon(icon, color: Colors.white),
         color: color,
         onPressed: () {
+          onPress();
           //TODO: insert privacy overlay
         },
         label: Expanded(

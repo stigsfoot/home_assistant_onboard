@@ -1,6 +1,15 @@
 import 'services.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
+// Static Enums
+enum Assets {
+  Roof,
+  HVAC,
+  Plumbing,
+  Appliance,
+  Add,
+}
+
 /// Static global state. Immutable services that do not care about build context.
 class Global {
   // Data Models

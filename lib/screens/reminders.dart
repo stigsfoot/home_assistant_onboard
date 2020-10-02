@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:home_assistant_onboard/shared/navigation.dart';
+import '../shared/shared.dart';
 
 class RemindersScreen extends StatelessWidget {
   @override

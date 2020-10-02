@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../services/services.dart';
 import '../screens/screens.dart';
 import 'package:provider/provider.dart';
-import 'package:home_assistant_onboard/shared/navigation.dart';
+import '../shared/shared.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -15,11 +15,9 @@ class ProfileScreen extends StatelessWidget {
 
     if (user != null) {
       return Scaffold(
-        
         appBar: AppBar(
           backgroundColor: Colors.black87,
-          title: Text(
-              user.displayName + ' of Winterfell ' ?? 'Anonymous'),
+          title: Text(user.displayName + ' of Winterfell ' ?? 'Anonymous'),
         ),
         body: Center(
           child: Column(
@@ -60,8 +58,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              
-              
+
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextField(
@@ -80,6 +77,7 @@ class ProfileScreen extends StatelessWidget {
                   color: Colors.black87,
                   onPressed: () async {
                     await auth.signOut();
+                    // await auth.deleteUser();
                     Navigator.of(context)
                         .pushNamedAndRemoveUntil('/', (route) => false);
                   }),
@@ -91,16 +89,23 @@ class ProfileScreen extends StatelessWidget {
                 text: 'Update privacy settings',
                 icon: FontAwesomeIcons.cog,
                 color: Colors.lightGreen,
-                
+                onPress: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) {
+                      return PrivacyScreen();
+                    }),
+                  );
+                },
               ),
             ],
           ),
         ),
-        bottomNavigationBar: AppBottomNav(),
       );
-      
     } else {
-      return Text('User is not authenticated');
+      return Container(
+        color: Colors.black87,
+      );
+      // return Text('User is not authenticated');
     }
   }
 }

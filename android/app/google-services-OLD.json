@@ -15,22 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "667198133122-i48hh0n6j7p4khn4ab7h1bokcqookos4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.sandbox.home_assistant_onboard",
-            "certificate_hash": "109856f66aaeafa66ab697aad3604aded0ef54b4"
-          }
-        },
-        {
-          "client_id": "667198133122-jef8og3jdmq7crm2p7qsics8qj45kd5p.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.sandbox.home_assistant_onboard",
-            "certificate_hash": "3e64b13ba6abf5131512e38969f017d95b9ac5c5"
-          }
-        },
-        {
           "client_id": "667198133122-dfl8in7lvabfc04it11b41kiup8jsg5r.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -4,42 +4,177 @@ import '../shared/shared.dart';
 import '../screens/screens.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends StatefulWidget {
+  @override
+  _OnboardingScreenState createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  final AuthService auth = AuthService();
+
+  void selectAsset(asset) {
+    String selectedAssetText;
+    switch (asset) {
+      case Assets.Add:
+        selectedAssetText = 'Add';
+        break;
+      case Assets.Appliance:
+        selectedAssetText = 'Appliance';
+        break;
+      case Assets.HVAC:
+        selectedAssetText = 'HVAC';
+        break;
+      case Assets.Plumbing:
+        selectedAssetText = 'Plumbing';
+        break;
+      case Assets.Roof:
+        selectedAssetText = 'Roof';
+        break;
+    }
+    // Navigator.of(context).pop();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (ctx) {
+          return OnboardingDateScreen(
+              selectedAsset: asset, selectedAssetText: selectedAssetText);
+        },
+      ),
+    );
+    print(asset);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      // future: Global.assetsRef.getData(),
-      builder: (BuildContext context, AsyncSnapshot snap) {
-        if (snap.hasData) {
-          List<Asset> assets = snap.data;
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.deepPurple,
-              title: Text('Assets'),
-              actions: [
-                IconButton(
-                  icon: Icon(FontAwesomeIcons.userCircle,
-                      color: Colors.pink[200]),
-                  onPressed: () => Navigator.pushNamed(context, '/profile'),
-                )
-              ],
+    // return FutureBuilder(
+    //   // future: Global.assetsRef.getData(),
+    //   builder: (BuildContext context, AsyncSnapshot snap) {
+    //     if (snap.hasData) {
+    //       List<Asset> assets = snap.data;
+    //       return Scaffold(
+    //         appBar: AppBar(
+    //           backgroundColor: Colors.deepPurple,
+    //           title: Text('Assets'),
+    //           actions: [
+    //             IconButton(
+    //               icon: Icon(FontAwesomeIcons.userCircle,
+    //                   color: Colors.pink[200]),
+    //               onPressed: () => Navigator.pushNamed(context, '/profile'),
+    //             )
+    //           ],
+    //         ),
+    //         drawer: AssetDrawer(assets: snap.data),
+    //         body: GridView.count(
+    //           primary: false,
+    //           padding: const EdgeInsets.all(20.0),
+    //           crossAxisSpacing: 10.0,
+    //           crossAxisCount: 2,
+    //           children: assets.map((asset) => AssetItem(asset: asset)).toList(),
+    //         ),
+    //         bottomNavigationBar: AppBottomNav(),
+    //       );
+
+    // Check if Null, Initialise it by checking from Firebase
+    if (auth.isCompetedOnboarding == null) {
+      // It will set the isCompletedOnboarding value to true or false
+      auth.getUser.then((value) {
+        auth.createUser(value).then((val) {
+          setState(() {});
+        });
+      });
+      return Scaffold(
+          body: Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.blue[200],
+        ),
+      ));
+    }
+    if (!auth.isCompetedOnboarding) {
+      print(auth.isCompetedOnboarding);
+      // Onboarding Not Complete, display Onboarding screen here
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.deepPurple,
+          title: Text('Add home asset'),
+        ),
+        body: Container(
+            child: GridView.count(
+          crossAxisCount: 2,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                selectAsset(Assets.Roof);
+              },
+              child: Card(
+                child: Container(
+                  child: Icon(
+                    Icons.roofing,
+                    size: 40,
+                  ),
+                ),
+              ),
             ),
-            drawer: AssetDrawer(assets: snap.data),
-            body: GridView.count(
-              primary: false,
-              padding: const EdgeInsets.all(20.0),
-              crossAxisSpacing: 10.0,
-              crossAxisCount: 2,
-              children: assets.map((asset) => AssetItem(asset: asset)).toList(),
+            GestureDetector(
+              onTap: () {
+                selectAsset(Assets.HVAC);
+              },
+              child: Card(
+                child: Container(
+                  child: Icon(
+                    Icons.hvac,
+                    size: 40,
+                  ),
+                ),
+              ),
             ),
-            bottomNavigationBar: AppBottomNav(),
-          );
-        } else {
-          return ProfileScreen();
-          // Reminder: MockScreen() goes here if all else fails :D
-        }
-      },
-    );
+            GestureDetector(
+              onTap: () {
+                selectAsset(Assets.Plumbing);
+              },
+              child: Card(
+                child: Container(
+                  child: Icon(
+                    Icons.plumbing,
+                    size: 40,
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                selectAsset(Assets.Appliance);
+              },
+              child: Card(
+                child: Container(
+                  child: Icon(
+                    Icons.kitchen,
+                    size: 40,
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                selectAsset(Assets.Add);
+              },
+              child: Card(
+                child: Container(
+                  child: Icon(
+                    Icons.power,
+                    size: 40,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        )),
+      );
+    } else {
+      // return ProfileScreen();
+      return BottomNavBar();
+      // Reminder: MockScreen() goes here if all else fails :D
+    }
+    // },
+    // );
   }
 }
 

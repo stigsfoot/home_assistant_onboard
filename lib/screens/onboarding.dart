@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../services/services.dart';
 import '../shared/shared.dart';
 import '../screens/screens.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -45,34 +44,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // return FutureBuilder(
-    //   // future: Global.assetsRef.getData(),
-    //   builder: (BuildContext context, AsyncSnapshot snap) {
-    //     if (snap.hasData) {
-    //       List<Asset> assets = snap.data;
-    //       return Scaffold(
-    //         appBar: AppBar(
-    //           backgroundColor: Colors.deepPurple,
-    //           title: Text('Assets'),
-    //           actions: [
-    //             IconButton(
-    //               icon: Icon(FontAwesomeIcons.userCircle,
-    //                   color: Colors.pink[200]),
-    //               onPressed: () => Navigator.pushNamed(context, '/profile'),
-    //             )
-    //           ],
-    //         ),
-    //         drawer: AssetDrawer(assets: snap.data),
-    //         body: GridView.count(
-    //           primary: false,
-    //           padding: const EdgeInsets.all(20.0),
-    //           crossAxisSpacing: 10.0,
-    //           crossAxisCount: 2,
-    //           children: assets.map((asset) => AssetItem(asset: asset)).toList(),
-    //         ),
-    //         bottomNavigationBar: AppBottomNav(),
-    //       );
-
     // Check if Null, Initialise it by checking from Firebase
     if (auth.isCompetedOnboarding == null) {
       // It will set the isCompletedOnboarding value to true or false
@@ -94,11 +65,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.deepPurple,
-          title: Text('Add home asset'),
+          title: Text('Track a Home Asset'),
         ),
         body: Container(
             child: GridView.count(
-          crossAxisCount: 2,
+          crossAxisCount: 3,
           children: <Widget>[
             GestureDetector(
               onTap: () {
@@ -109,6 +80,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: Icon(
                     Icons.roofing,
                     size: 40,
+                    semanticLabel: 'Roof', //a11y - future refactor
                   ),
                 ),
               ),
@@ -122,6 +94,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: Icon(
                     Icons.hvac,
                     size: 40,
+                    semanticLabel: 'HVAC',
                   ),
                 ),
               ),
@@ -135,6 +108,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: Icon(
                     Icons.plumbing,
                     size: 40,
+                    semanticLabel: 'Plumbing',
                   ),
                 ),
               ),
@@ -148,6 +122,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: Icon(
                     Icons.kitchen,
                     size: 40,
+                    semanticLabel: 'Appliance',
                   ),
                 ),
               ),
@@ -161,6 +136,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: Icon(
                     Icons.power,
                     size: 40,
+                    semanticLabel: 'Electrical',
                   ),
                 ),
               ),
@@ -169,14 +145,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         )),
       );
     } else {
-      // return ProfileScreen();
       return BottomNavBar();
-      // Reminder: MockScreen() goes here if all else fails :D
     }
-    // },
-    // );
   }
 }
+
+//Unused
 
 class AssetItem extends StatelessWidget {
   final Asset asset;
@@ -220,11 +194,8 @@ class AssetItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Text(asset.description)
                   ],
                 ),
-                // )
-                //AssetProgress(asset: asset),
               ],
             ),
           ),

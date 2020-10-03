@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:home_assistant_onboard/screens/screens.dart';
 import 'package:provider/provider.dart';
 import 'package:home_assistant_onboard/services/services.dart';
+import './providers/mainProvider.dart';
 
 // fewer lines
 // import 'screens/screens.dart';
@@ -18,6 +19,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         StreamProvider<FirebaseUser>.value(value: AuthService().user),
+        ChangeNotifierProvider(
+          create: (BuildContext ctx) => MainProvider(),
+        ),
       ],
       child: MaterialApp(
         // Firebase Analytics

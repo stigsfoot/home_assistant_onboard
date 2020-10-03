@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:home_assistant_onboard/providers/mainProvider.dart';
 import '../services/services.dart';
 import '../screens/screens.dart';
 import 'package:provider/provider.dart';
@@ -7,11 +8,11 @@ import '../shared/shared.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final AuthService auth = AuthService();
-
   @override
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of<FirebaseUser>(context);
+    final providerData = Provider.of<MainProvider>(context, listen: false);
+    final AuthService auth = providerData.auth;
 
     if (user != null) {
       return Scaffold(

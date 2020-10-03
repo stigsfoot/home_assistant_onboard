@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../services/services.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../providers/mainProvider.dart';
 
 class OnboardingDateScreen extends StatefulWidget {
   OnboardingDateScreen({
@@ -24,9 +26,8 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
 
   bool hasSelectedRemindedDate = false;
   DateTime remindedDate;
-  final AuthService auth = AuthService();
 
-  nextScreen(BuildContext ctx) {
+  nextScreen(BuildContext ctx, AuthService auth) {
     if (!hasSelectedInstalledDate || !hasSelectedRemindedDate) {
       Scaffold.of(ctx).removeCurrentSnackBar();
       Scaffold.of(ctx).showSnackBar(
@@ -48,7 +49,13 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
       // All dates have been selected, go to next dashboard screen
       print('All Good !');
       // Set onboarding as completed Locally
-      auth.setOnboardingCompleteLocally();
+      // And also set the vaiables locally
+      auth.setOnboardingCompleteLocally(
+        widget.selectedAssetText,
+        installedDate,
+        remindedDate,
+        ctx: ctx,
+      );
       // Set onboarding as completed in user Collection
       // Aslo pass in the data to be uplaoded to Firebase
       auth.setOnboardingComplete(
@@ -103,6 +110,8 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final providerData = Provider.of<MainProvider>(context, listen: false);
+    final AuthService auth = providerData.auth;
     Widget returnSelectedAssetIcon() {
       if (widget.selectedAsset == Assets.HVAC) {
         return Icon(
@@ -238,7 +247,7 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
                   ),
                 ),
                 onPressed: () {
-                  nextScreen(ctx);
+                  nextScreen(ctx, auth);
                 },
                 color: Colors.lightBlueAccent[700],
               ),

@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import '../../services/services.dart';
+import '../../providers/mainProvider.dart';
 
 class LoginScreen extends StatefulWidget {
   createState() => LoginScreenState();
 }
 
 class LoginScreenState extends State<LoginScreen> {
-  AuthService auth = AuthService();
+  AuthService auth;
 
   @override
   void initState() {
     super.initState();
+    final providerData = Provider.of<MainProvider>(context, listen: false);
+    auth = providerData.auth;
     auth.getUser.then(
       (user) {
         if (user != null) {
@@ -66,7 +70,9 @@ class LoginScreenState extends State<LoginScreen> {
               style: Theme.of(context).textTheme.caption,
               textAlign: TextAlign.center,
             ),
-            PrivacySettingsButton(),
+            // This was causing the null
+            // I have commented it out.
+            // PrivacySettingsButton(),
             LoginButton(
               text: 'Access without logging in',
               // TODO: Implement this !

@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import '../providers/mainProvider.dart';
 import './services.dart';
 import 'dart:async';
 
@@ -9,7 +12,13 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _db = Firestore.instance;
 
-  static bool isOnboardingComplete;
+  // Variable for the is onboarding complete or not.
+  bool isOnboardingComplete;
+
+  // Variable for selected Assets
+  List selectedAssets = [];
+  DateTime selectedInstalledDate;
+  DateTime selectedRemindingDate;
 
   // Firebase user one-time fetch
   Future<FirebaseUser> get getUser => _auth.currentUser();
@@ -21,8 +30,22 @@ class AuthService {
   bool get isCompetedOnboarding => isOnboardingComplete;
 
   // Set onboarding complete locally
-  void setOnboardingCompleteLocally() {
+  void setOnboardingCompleteLocally(
+      String assetText, DateTime installedDate, DateTime reminderDate,
+      {BuildContext ctx}) {
     isOnboardingComplete = true;
+    // Also set the global variables here in Provider
+    // Access the main Provider
+    final providerData = Provider.of<MainProvider>(ctx, listen: false);
+    // Set provider Data
+    providerData.selectedAssets.add(assetText);
+    providerData.selectedInstalledDate = installedDate;
+    providerData.selectedRemindingDate = reminderDate;
+    providerData.isOnboardingComplete = true;
+
+    selectedAssets.add(assetText);
+    selectedInstalledDate = installedDate;
+    selectedRemindingDate = reminderDate;
   }
 
   // Set onboarding complete in users Collection for when the user completes the onboarding
@@ -37,7 +60,7 @@ class AuthService {
       {
         'uid': user.uid,
         'isOnboardingCompleted': true,
-        'selectedAsset': selectedAssetText,
+        'selectedAssets': [selectedAssetText],
         'installedDate': selectedInstalledDate,
         'remindingDate': selectedReminderDate,
       },
@@ -99,13 +122,22 @@ class AuthService {
           'isOnboardingCompleted': false,
         },
       );
-      AuthService.isOnboardingComplete = false;
+      isOnboardingComplete = false;
     } else {
       // user Already Exists.
       // Check if onboarding is complete or not.
       print('User Already Exists !');
-      AuthService.isOnboardingComplete = ds.data['isOnboardingCompleted'];
+      isOnboardingComplete = ds.data['isOnboardingCompleted'];
       print('User onboarding Status: $isOnboardingComplete');
+      if (isOnboardingComplete) {
+        print('LIST HEREEEEEEEEEEEEEEEEEEEEEEEEEE');
+        print(ds.data['selectedAssets']);
+        selectedAssets = ds.data['selectedAssets'];
+        selectedRemindingDate = DateTime.fromMillisecondsSinceEpoch(
+            (ds.data['remindingDate'] as Timestamp).millisecondsSinceEpoch);
+        selectedInstalledDate = DateTime.fromMillisecondsSinceEpoch(
+            (ds.data['installedDate'] as Timestamp).millisecondsSinceEpoch);
+      }
     }
   }
 

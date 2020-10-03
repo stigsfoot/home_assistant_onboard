@@ -3,6 +3,8 @@ import '../services/services.dart';
 import '../shared/shared.dart';
 import '../screens/screens.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import '../providers/mainProvider.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -10,8 +12,6 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final AuthService auth = AuthService();
-
   void selectAsset(asset) {
     String selectedAssetText;
     switch (asset) {
@@ -45,6 +45,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final providerData = Provider.of<MainProvider>(context, listen: false);
+    final AuthService auth = providerData.auth;
     // return FutureBuilder(
     //   // future: Global.assetsRef.getData(),
     //   builder: (BuildContext context, AsyncSnapshot snap) {
@@ -82,19 +84,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         });
       });
       return Scaffold(
-          body: Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.blue[200],
+        body: Center(
+          child: CircularProgressIndicator(
+            backgroundColor: Colors.blue[200],
+          ),
         ),
-      ));
+      );
     }
     if (!auth.isCompetedOnboarding) {
       print(auth.isCompetedOnboarding);
       // Onboarding Not Complete, display Onboarding screen here
+      providerData.isOnboardingComplete = false;
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.deepPurple,
-          title: Text('Add home asset'),
+          title: Text('Add Home Asset'),
         ),
         body: Container(
             child: GridView.count(
@@ -169,7 +173,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         )),
       );
     } else {
+      // Onboarding is already Complete
       // return ProfileScreen();
+      // Set all data in the provider
+      providerData.isOnboardingComplete = true;
+      providerData.selectedAssets = providerData.auth.selectedAssets;
+      providerData.selectedInstalledDate =
+          providerData.auth.selectedInstalledDate;
+      providerData.selectedRemindingDate =
+          providerData.auth.selectedRemindingDate;
       return BottomNavBar();
       // Reminder: MockScreen() goes here if all else fails :D
     }

@@ -13,6 +13,7 @@ class ProfileScreen extends StatelessWidget {
     FirebaseUser user = Provider.of<FirebaseUser>(context);
     final providerData = Provider.of<MainProvider>(context, listen: false);
     final AuthService auth = providerData.auth;
+    final int numberOfReminders = providerData.selectedAssets.length;
 
     if (user != null) {
       return Scaffold(
@@ -44,7 +45,8 @@ class ProfileScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: Text('8 upcoming home related reminders ',
+                child: Text(
+                    '$numberOfReminders upcoming home related reminders ',
                     style: Theme.of(context).textTheme.headline5,
                     textAlign: TextAlign.center),
               ),
@@ -78,7 +80,6 @@ class ProfileScreen extends StatelessWidget {
                   color: Colors.black87,
                   onPressed: () async {
                     await auth.signOut();
-                    // await auth.deleteUser();
                     Navigator.of(context)
                         .pushNamedAndRemoveUntil('/', (route) => false);
                   }),

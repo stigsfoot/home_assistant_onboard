@@ -47,7 +47,7 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
       );
     } else {
       // All dates have been selected, go to next dashboard screen
-      print('All Good !');
+      print('All Good!');
       // Set onboarding as completed Locally
       // And also set the vaiables locally
       auth.setOnboardingCompleteLocally(
@@ -179,7 +179,7 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Date Installed: ${hasSelectedInstalledDate ? DateFormat('d/M/y').format(installedDate).toString() : ''}',
+                    'Date Installed: ${hasSelectedInstalledDate ? DateFormat('M/d/y').format(installedDate).toString() : ''}',
                     style: TextStyle(
                       fontSize: 18,
                       // fontWeight: FontWeight.bold,
@@ -208,7 +208,7 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Date to be reminded: ${hasSelectedRemindedDate ? DateFormat('d/M/y').format(remindedDate).toString() : ''}',
+                    'Date to be reminded: ${hasSelectedRemindedDate ? DateFormat('M/d/y').format(remindedDate).toString() : ''}',
                     style: TextStyle(
                       fontSize: 18,
                       // fontWeight: FontWeight.bold,
@@ -238,7 +238,7 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
                   height: 40,
                   child: Center(
                     child: Text(
-                      'OK',
+                      'Finish',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,

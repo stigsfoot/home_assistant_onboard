@@ -179,7 +179,7 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Date Installed: ${hasSelectedInstalledDate ? DateFormat('M/d/y').format(installedDate).toString() : ''}',
+                    'Date Installed (or last maintained): ${hasSelectedInstalledDate ? DateFormat('M/d/y').format(installedDate).toString() : ''}',
                     style: TextStyle(
                       fontSize: 18,
                       // fontWeight: FontWeight.bold,

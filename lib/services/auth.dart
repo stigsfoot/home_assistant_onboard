@@ -38,12 +38,16 @@ class AuthService {
     // Access the main Provider
     final providerData = Provider.of<MainProvider>(ctx, listen: false);
     // Set provider Data
-    providerData.selectedAssets.add(assetText);
+    // Bug coming up here, previous selected Assets are not being deleted lcally
+    // Work aroud
+    // TODO: Fix this when adding support for multiple Assets
+    providerData.selectedAssets = [assetText];
     providerData.selectedInstalledDate = installedDate;
     providerData.selectedRemindingDate = reminderDate;
     providerData.isOnboardingComplete = true;
 
-    selectedAssets.add(assetText);
+    // TODO: Aslo fix it here
+    selectedAssets = [assetText];
     selectedInstalledDate = installedDate;
     selectedRemindingDate = reminderDate;
   }

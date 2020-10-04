@@ -62,17 +62,17 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
 
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Update Password',
-                  ),
-                ),
-              ),
-              Spacer(),
+              // Padding(
+              //   padding: const EdgeInsets.all(10),
+              //   child: TextField(
+              //     obscureText: true,
+              //     decoration: InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       labelText: 'Update Password',
+              //     ),
+              //   ),
+              // ),
+              // Spacer(),
 
               FlatButton(
                   child: Text('Logout'),

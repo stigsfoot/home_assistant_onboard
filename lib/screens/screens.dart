@@ -7,3 +7,5 @@ export 'reminders.dart';
 export 'home.dart';
 export 'privacyScreen.dart';
 export 'onboardingDateScreen.dart';
+export 'addAsset.dart';
+export 'addAssetDateScreen.dart';

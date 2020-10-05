@@ -4,23 +4,20 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../providers/mainProvider.dart';
 
-class OnboardingDateScreen extends StatefulWidget {
-  OnboardingDateScreen({
-    Key key,
-    @required this.selectedAsset,
-    @required this.selectedAssetText,
-  }) : super(key: key);
+class AddAssetDateScreen extends StatefulWidget {
+  AddAssetDateScreen(
+      {Key key, @required this.selectedAsset, @required this.selectedAssetText})
+      : super(key: key);
 
   // The Selected Asset as an Enum
   final selectedAsset;
   // The Selected Asset in String form to display to User
   final selectedAssetText;
-
   @override
-  _OnboardingDateScreenState createState() => _OnboardingDateScreenState();
+  _AddAssetDateScreenState createState() => _AddAssetDateScreenState();
 }
 
-class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
+class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
   bool hasSelectedInstalledDate = false;
   DateTime installedDate;
 
@@ -49,24 +46,19 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
       // All dates have been selected, go to next dashboard screen
       print('All Good !');
       // Set onboarding as completed Locally
-      // And also set the vaiables locally
-      auth.setOnboardingCompleteLocally(
-        widget.selectedAssetText,
-        installedDate,
-        remindedDate,
-        ctx: ctx,
-      );
+
       // Set onboarding as completed in user Collection
       // Aslo pass in the data to be uplaoded to Firebase
-      auth.setOnboardingComplete(
-        widget.selectedAssetText,
-        installedDate,
-        remindedDate,
+      final providerData = Provider.of<MainProvider>(ctx, listen: false);
+      providerData.addAsset(
+        selectedAssetText: widget.selectedAssetText,
+        installedDate: installedDate,
+        reminderDate: remindedDate,
       );
       // Navigate to the onboarding Screen again, which will detect
-      // that onboardingComplete variable is now true
+      // that onboardingComplete variable is true
       // And it will render the home dashboard Screen
-      Navigator.of(ctx).popAndPushNamed('/onboarding');
+      Navigator.of(ctx).pushReplacementNamed('/onboarding');
     }
   }
 

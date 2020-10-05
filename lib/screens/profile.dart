@@ -6,8 +6,44 @@ import '../screens/screens.dart';
 import 'package:provider/provider.dart';
 import '../shared/shared.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../providers/mainProvider.dart';
 
 class ProfileScreen extends StatelessWidget {
+  Future<void> deleteUserData(BuildContext ctx, AuthService auth) async {
+    await auth.deleteUser();
+    Navigator.of(ctx).pushNamedAndRemoveUntil('/', (route) => false);
+  }
+
+  Widget showAlertDialog(BuildContext ctx, AuthService auth) {
+    Widget cancelButton = FlatButton(
+      child: Text('Cancel'),
+      onPressed: () {
+        Navigator.of(ctx).pop();
+      },
+    );
+    Widget confirmButton = FlatButton(
+      child: Text(
+        'Confirm',
+        style: TextStyle(
+          color: Colors.red,
+        ),
+      ),
+      onPressed: () {
+        Navigator.of(ctx).pop();
+        deleteUserData(ctx, auth);
+      },
+    );
+    return AlertDialog(
+      title: Text('Are you sure ?'),
+      content: Text(
+          'This will delete all your data stored. Are you sure you want to proceed ?'),
+      actions: [
+        cancelButton,
+        confirmButton,
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of<FirebaseUser>(context);
@@ -77,16 +113,23 @@ class ProfileScreen extends StatelessWidget {
               // Privacy settings
 
               PrivacySettingsButton(
-                text: 'Update Privacy Settings',
-                icon: FontAwesomeIcons.cog,
-                color: Colors.lightGreen,
+                text: 'Delete Account',
+                icon: FontAwesomeIcons.trash,
+                color: Colors.red,
                 onPress: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (ctx) {
-                      return PrivacyScreen();
-                    }),
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext ctx) {
+                      return showAlertDialog(context, auth);
+                    },
                   );
                 },
+                //   Navigator.of(context).push(
+                //     MaterialPageRoute(builder: (ctx) {
+                //       return PrivacyScreen();
+                //     }),
+                //   );
+                // },
               ),
             ],
           ),

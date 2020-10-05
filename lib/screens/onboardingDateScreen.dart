@@ -47,7 +47,7 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
       );
     } else {
       // All dates have been selected, go to next dashboard screen
-      print('All Good !');
+      print('All Good!');
       // Set onboarding as completed Locally
       // And also set the vaiables locally
       auth.setOnboardingCompleteLocally(
@@ -155,7 +155,7 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 50),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -163,10 +163,10 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      '${widget.selectedAssetText} selected',
+                      'Details on your asset',
                       style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -183,9 +183,9 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Date Installed: ${hasSelectedInstalledDate ? DateFormat('d/M/y').format(installedDate).toString() : ''}',
+                    'Date Installed: ${hasSelectedInstalledDate ? DateFormat('M/d/y').format(installedDate).toString() : ''}',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       // fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -195,11 +195,15 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
                       onPressed: () {
                         pickInstalledDate(context);
                       },
-                      color: Colors.lightBlueAccent[700],
-                      child: Text(
-                        'Select Date',
-                        textAlign: TextAlign.center,
+                      //color: Colors.lightBlueAccent[700],
+                      child: Icon(
+                        Icons.today,
+                        size: 50,
                       ),
+                      // child: Text(
+                      //   'Select Date',
+                      //   textAlign: TextAlign.center,
+                      // ),
                     ),
                   ),
                 ],
@@ -212,9 +216,9 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Date to be reminded: ${hasSelectedRemindedDate ? DateFormat('d/M/y').format(remindedDate).toString() : ''}',
+                    'Date to be reminded: ${hasSelectedRemindedDate ? DateFormat('M/d/y').format(remindedDate).toString() : ''}',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       // fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -224,27 +228,34 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
                       onPressed: () {
                         pickRemindedDate(context);
                       },
-                      color: Colors.lightBlueAccent[700],
-                      child: Text(
-                        'Select Date',
-                        textAlign: TextAlign.center,
+                      child: Icon(
+                        Icons.today,
+                        size: 50,
                       ),
+                      // color: Colors.lightBlueAccent[700],
+                      // child: Text(
+                      //   'Select Date',
+                      //   textAlign: TextAlign.center,
+                      // ),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 150),
-            Center(
+            SizedBox(height: 30),
+            Container(
+              margin: EdgeInsets.only(left: 20, top: 40),
               child: FlatButton(
+                  padding: EdgeInsets.all(25),
+                  
                 child: Container(
-                  width: 60,
-                  height: 40,
+                  width: 100,
+                  height: 20,
                   child: Center(
                     child: Text(
-                      'OK',
+                      'Finish',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w400,
                         fontSize: 16,
                       ),
                     ),
@@ -253,7 +264,7 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
                 onPressed: () {
                   nextScreen(ctx, auth);
                 },
-                color: Colors.lightBlueAccent[700],
+                color: Colors.black87,
               ),
             ),
           ],

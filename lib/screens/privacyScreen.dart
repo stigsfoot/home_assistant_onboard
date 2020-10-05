@@ -84,7 +84,7 @@ class PrivacyScreen extends StatelessWidget {
           margin: EdgeInsets.only(bottom: 10),
           child: FlatButton(
             padding: EdgeInsets.all(30),
-            color: Colors.blue[200],
+            color: Colors.red[300],
             onPressed: () {
               showDialog(
                 context: context,
@@ -93,7 +93,7 @@ class PrivacyScreen extends StatelessWidget {
                 },
               );
             },
-            child: Text('DELETE MY DATA', textAlign: TextAlign.center),
+            child: Text('DELETE MY INFORMATION', textAlign: TextAlign.center),
           ),
         ),
       ),

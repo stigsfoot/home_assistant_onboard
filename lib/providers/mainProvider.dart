@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// TODO: Document
 class MainProvider with ChangeNotifier {
   List selectedAssets = [];
   List selectedAssetType = [];

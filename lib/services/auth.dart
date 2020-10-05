@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import '../providers/mainProvider.dart';
-import './services.dart';
+//import './services.dart';
 import 'dart:async';
 
 class AuthService {
@@ -41,7 +41,7 @@ class AuthService {
     // Access the main Provider
     final providerData = Provider.of<MainProvider>(ctx, listen: false);
     // Set provider Data
-    // Bug coming up here, previous selected Assets are not being deleted lcally
+    // Bug coming up here, previous selected Assets are not being deleted locally
     // Work aroud
     // TODO: Fix this when adding support for multiple Assets
     providerData.selectedAssets = [assetText];
@@ -55,6 +55,7 @@ class AuthService {
     this.selectedInstalledDate = [installedDate];
     this.selectedRemindingDate = [reminderDate];
     this.selectedAssetsType = [assetType];
+
   }
 
   // Set onboarding complete in users Collection for when the user completes the onboarding
@@ -197,7 +198,7 @@ class AuthService {
     try {
       await user.delete();
     } catch (e) {
-      print('Error Deleting User !');
+      print('Error Deleting User!');
       print(e.toString());
       throw e;
     }

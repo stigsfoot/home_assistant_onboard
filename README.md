@@ -31,6 +31,12 @@ flutter run
 4. Push to the branch: `git push origin home_assistant_onboard`
 5. Submit a pull request :D
 
+## Created & Maintained By
+
+[Noble Ackerson](https://nobles.page) (@stigsfoot)
+
+> If you found this project helpful, you decide to use it to track stuff that needs maintenance in your home, or if you learned something, [consider sponsoring this project](patreon.com/stigsfoot)
+
 
 ## Credits
 

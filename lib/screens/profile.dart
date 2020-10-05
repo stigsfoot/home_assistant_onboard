@@ -45,8 +45,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: Text(
-                    '$numberOfReminders upcoming home related reminders ',
+                child: Text('$numberOfReminders upcoming reminders ',
                     style: Theme.of(context).textTheme.headline5,
                     textAlign: TextAlign.center),
               ),
@@ -57,25 +56,15 @@ class ProfileScreen extends StatelessWidget {
                   obscureText: false,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Update Address',
+                    prefixIcon: Icon(Icons.home),
+                    labelText: 'Update Location',
                   ),
                 ),
               ),
 
-              // Padding(
-              //   padding: const EdgeInsets.all(10),
-              //   child: TextField(
-              //     obscureText: true,
-              //     decoration: InputDecoration(
-              //       border: OutlineInputBorder(),
-              //       labelText: 'Update Password',
-              //     ),
-              //   ),
-              // ),
-              // Spacer(),
-
+              Spacer(),
               FlatButton(
-                  child: Text('Logout'),
+                  child: Text('LOGOUT'),
                   padding: EdgeInsets.all(25),
                   color: Colors.black87,
                   onPressed: () async {
@@ -88,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
               // Privacy settings
 
               PrivacySettingsButton(
-                text: 'Update privacy settings',
+                text: 'Update Privacy Settings',
                 icon: FontAwesomeIcons.cog,
                 color: Colors.lightGreen,
                 onPress: () {

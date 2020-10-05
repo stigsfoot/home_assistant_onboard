@@ -4,25 +4,33 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../providers/mainProvider.dart';
 
-class AddAssetDateScreen extends StatefulWidget {
-  AddAssetDateScreen(
-      {Key key, @required this.selectedAsset, @required this.selectedAssetText})
-      : super(key: key);
+class EditDateScreen extends StatefulWidget {
+  EditDateScreen({
+    Key key,
+    @required this.selectedAsset,
+    @required this.selectedAssetText,
+    @required this.index,
+  }) : super(key: key);
 
   // The Selected Asset as an Enum
   final selectedAsset;
   // The Selected Asset in String form to display to User
   final selectedAssetText;
+  // The index of the Asset selected
+  final int index;
+
   @override
-  _AddAssetDateScreenState createState() => _AddAssetDateScreenState();
+  _EditDateScreenState createState() => _EditDateScreenState();
 }
 
-class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
+class _EditDateScreenState extends State<EditDateScreen> {
   bool hasSelectedInstalledDate = false;
   DateTime installedDate;
 
   bool hasSelectedRemindedDate = false;
   DateTime remindedDate;
+
+  String newAssetName;
 
   nextScreen(BuildContext ctx, AuthService auth) {
     if (!hasSelectedInstalledDate || !hasSelectedRemindedDate) {
@@ -50,12 +58,11 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
       // Set onboarding as completed in user Collection
       // Aslo pass in the data to be uplaoded to Firebase
       final providerData = Provider.of<MainProvider>(ctx, listen: false);
-      // TODO: when you Add suport for custom Asset title, pass it here
-      providerData.addAsset(
-        selectedAssetText: widget.selectedAssetText,
-        assetType: widget.selectedAssetText,
-        installedDate: this.installedDate,
-        reminderDate: this.remindedDate,
+      providerData.editAsset(
+        newAssetName: widget.selectedAssetText,
+        index: widget.index,
+        newAssetInstallDate: this.installedDate,
+        newAssetRemindingDate: this.remindedDate,
       );
       // Navigate to the onboarding Screen again, which will detect
       // that onboardingComplete variable is true
@@ -103,9 +110,26 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final providerData = Provider.of<MainProvider>(context, listen: false);
+    this.newAssetName = widget.selectedAssetText;
+    this.installedDate = providerData.selectedInstalledDate[widget.index];
+    this.remindedDate = providerData.selectedRemindingDate[widget.index];
+    this.hasSelectedInstalledDate = true;
+    this.hasSelectedRemindedDate = true;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final providerData = Provider.of<MainProvider>(context, listen: false);
     final AuthService auth = providerData.auth;
+    // this.newAssetName = widget.selectedAssetText;
+    // this.installedDate = providerData.selectedInstalledDate[widget.index];
+    // this.remindedDate = providerData.selectedRemindingDate[widget.index];
+    // this.hasSelectedInstalledDate = true;
+    // this.hasSelectedRemindedDate = true;
     Widget returnSelectedAssetIcon() {
       if (widget.selectedAsset == Assets.HVAC) {
         return Icon(

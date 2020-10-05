@@ -9,3 +9,5 @@ export 'privacyScreen.dart';
 export 'onboardingDateScreen.dart';
 export 'addAsset.dart';
 export 'addAssetDateScreen.dart';
+export 'editScreen.dart';
+export 'editDateScreen.dart';

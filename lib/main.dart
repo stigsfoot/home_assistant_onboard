@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
           //'/reminders': (context) => RemindersScreen(),
           '/onboarding': (context) => OnboardingScreen(),
           '/addAsset': (context) => AddAsset(),
+          '/editAsset': (context) => EditScreen(),
         },
 
         // Theme

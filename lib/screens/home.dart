@@ -118,17 +118,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: 20,
                 ),
-                Container(
-                  width: 0.2 * width,
-                  height: 0.2 * width,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.edit,
-                        size: 0.10 * width,
+                GestureDetector(
+                  onTap: () {
+                    print('EDITING EXISTING ASSETS !');
+                    Navigator.of(context).pushNamed('/editAsset');
+                  },
+                  child: Container(
+                    width: 0.2 * width,
+                    height: 0.2 * width,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.edit,
+                          size: 0.10 * width,
+                        ),
                       ),
                     ),
                   ),

@@ -52,6 +52,8 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
       // And also set the vaiables locally
       auth.setOnboardingCompleteLocally(
         widget.selectedAssetText,
+        // TODO: this is the type, now you can set type to custom, and change name off asset if you want
+        widget.selectedAssetText,
         installedDate,
         remindedDate,
         ctx: ctx,
@@ -59,6 +61,8 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
       // Set onboarding as completed in user Collection
       // Aslo pass in the data to be uplaoded to Firebase
       auth.setOnboardingComplete(
+        widget.selectedAssetText,
+        // TODO: this is the type, now you can set type to custom, and change name off asset if you want
         widget.selectedAssetText,
         installedDate,
         remindedDate,

@@ -5,8 +5,39 @@ import '../providers/mainProvider.dart';
 
 class PrivacyScreen extends StatelessWidget {
   Future<void> deleteUserData(BuildContext ctx, AuthService auth) async {
-    await auth.deleteUser();
-    Navigator.of(ctx).pushNamedAndRemoveUntil('/', (route) => false);
+    try {
+      await auth.deleteUser();
+      Navigator.of(ctx).pushNamedAndRemoveUntil('/', (route) => false);
+    } catch (e) {
+      showDialog(
+        context: ctx,
+        builder: (BuildContext ctx) {
+          return showRetryDialog(ctx, auth);
+        },
+      );
+    }
+  }
+
+  Widget showRetryDialog(BuildContext ctx, AuthService auth) {
+    Widget confirmButton = FlatButton(
+      child: Text(
+        'Confirm',
+        style: TextStyle(
+          color: Colors.red,
+        ),
+      ),
+      onPressed: () {
+        Navigator.of(ctx).pop();
+      },
+    );
+    return AlertDialog(
+      title: Text('Are you sure ?'),
+      content: Text(
+          'This is a sensitive action and requires recent login. Please logout, and then re-login again, and try again.'),
+      actions: [
+        confirmButton,
+      ],
+    );
   }
 
   Widget showAlertDialog(BuildContext ctx, AuthService auth) {

@@ -19,6 +19,7 @@ class AuthService {
   List selectedAssets = [];
   List selectedInstalledDate;
   List selectedRemindingDate;
+  List selectedAssetsType = [];
 
   // Firebase user one-time fetch
   Future<FirebaseUser> get getUser => _auth.currentUser();
@@ -32,8 +33,8 @@ class AuthService {
   bool get isCompetedOnboarding => isOnboardingComplete;
 
   // Set onboarding complete locally
-  void setOnboardingCompleteLocally(
-      String assetText, DateTime installedDate, DateTime reminderDate,
+  void setOnboardingCompleteLocally(String assetText, String assetType,
+      DateTime installedDate, DateTime reminderDate,
       {BuildContext ctx}) {
     isOnboardingComplete = true;
     // Also set the global variables here in Provider
@@ -46,27 +47,33 @@ class AuthService {
     providerData.selectedAssets = [assetText];
     providerData.selectedInstalledDate = [installedDate];
     providerData.selectedRemindingDate = [reminderDate];
+    providerData.selectedAssetType = [assetType];
     providerData.isOnboardingComplete = true;
 
-    // TODO: Also fix it here
-    selectedAssets = [assetText];
-    selectedInstalledDate = [installedDate];
-    selectedRemindingDate = [reminderDate];
+    // TODO: Aslo fix it here
+    this.selectedAssets = [assetText];
+    this.selectedInstalledDate = [installedDate];
+    this.selectedRemindingDate = [reminderDate];
+    this.selectedAssetsType = [assetType];
+
   }
 
   // Set onboarding complete in users Collection for when the user completes the onboarding
   // And also upload selected data to Firebase
   Future<void> setOnboardingComplete(
     String selectedAssetText,
+    String selectedAssetType,
     DateTime selectedInstalledDate,
     DateTime selectedReminderDate,
   ) async {
     FirebaseUser user = await getUser;
+    print('Setting onboarding complete with type: $selectedAssetType');
     await _db.collection('users').document(user.uid).setData(
       {
         'uid': user.uid,
         'isOnboardingCompleted': true,
         'selectedAssets': [selectedAssetText],
+        'type': [selectedAssetType],
         'installedDate': [selectedInstalledDate],
         'remindingDate': [selectedReminderDate],
       },
@@ -165,6 +172,7 @@ class AuthService {
         print(tempRemindingList);
         this.selectedInstalledDate = tempInstalledList;
         this.selectedRemindingDate = tempRemindingList;
+        this.selectedAssetsType = ds.data['type'];
       }
     }
   }
@@ -192,6 +200,7 @@ class AuthService {
     } catch (e) {
       print('Error Deleting User!');
       print(e.toString());
+      throw e;
     }
   }
 }

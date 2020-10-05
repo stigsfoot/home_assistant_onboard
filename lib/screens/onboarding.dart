@@ -228,6 +228,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           providerData.auth.selectedInstalledDate;
       providerData.selectedRemindingDate =
           providerData.auth.selectedRemindingDate;
+      providerData.selectedAssetType = providerData.auth.selectedAssetsType;
       return BottomNavBar();
       // Reminder: MockScreen() goes here if all else fails :D
     }

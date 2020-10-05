@@ -17,11 +17,13 @@ class AuthService {
 
   // Variable for selected Assets
   List selectedAssets = [];
-  DateTime selectedInstalledDate;
-  DateTime selectedRemindingDate;
+  List selectedInstalledDate;
+  List selectedRemindingDate;
 
   // Firebase user one-time fetch
   Future<FirebaseUser> get getUser => _auth.currentUser();
+
+  Firestore get getDB => _db;
 
   // Firebase user a realtime stream
   Stream<FirebaseUser> get user => _auth.onAuthStateChanged;
@@ -42,14 +44,14 @@ class AuthService {
     // Work aroud
     // TODO: Fix this when adding support for multiple Assets
     providerData.selectedAssets = [assetText];
-    providerData.selectedInstalledDate = installedDate;
-    providerData.selectedRemindingDate = reminderDate;
+    providerData.selectedInstalledDate = [installedDate];
+    providerData.selectedRemindingDate = [reminderDate];
     providerData.isOnboardingComplete = true;
 
     // TODO: Also fix it here
     selectedAssets = [assetText];
-    selectedInstalledDate = installedDate;
-    selectedRemindingDate = reminderDate;
+    selectedInstalledDate = [installedDate];
+    selectedRemindingDate = [reminderDate];
   }
 
   // Set onboarding complete in users Collection for when the user completes the onboarding
@@ -65,8 +67,8 @@ class AuthService {
         'uid': user.uid,
         'isOnboardingCompleted': true,
         'selectedAssets': [selectedAssetText],
-        'installedDate': selectedInstalledDate,
-        'remindingDate': selectedReminderDate,
+        'installedDate': [selectedInstalledDate],
+        'remindingDate': [selectedReminderDate],
       },
     );
   }
@@ -134,13 +136,35 @@ class AuthService {
       isOnboardingComplete = ds.data['isOnboardingCompleted'];
       print('User onboarding Status: $isOnboardingComplete');
       if (isOnboardingComplete) {
-        print('LIST HEREEEEEEEEEEEEEEEEEEEEEEEEEE');
+        print('ASSET LIST HERE');
         print(ds.data['selectedAssets']);
+        print('Data Here !');
+        print(ds.data);
         selectedAssets = ds.data['selectedAssets'];
-        selectedRemindingDate = DateTime.fromMillisecondsSinceEpoch(
-            (ds.data['remindingDate'] as Timestamp).millisecondsSinceEpoch);
-        selectedInstalledDate = DateTime.fromMillisecondsSinceEpoch(
-            (ds.data['installedDate'] as Timestamp).millisecondsSinceEpoch);
+        List tempRemindingList = [];
+
+        ds.data['remindingDate'].forEach(
+          (element) {
+            tempRemindingList.add(
+              DateTime.fromMillisecondsSinceEpoch(
+                  element.millisecondsSinceEpoch),
+            );
+          },
+        );
+        List tempInstalledList = [];
+        ds.data['installedDate'].forEach(
+          (element) {
+            tempInstalledList.add(
+              DateTime.fromMillisecondsSinceEpoch(
+                  element.millisecondsSinceEpoch),
+            );
+          },
+        );
+        print('DATE LIST HERE:');
+        print(tempInstalledList);
+        print(tempRemindingList);
+        this.selectedInstalledDate = tempInstalledList;
+        this.selectedRemindingDate = tempRemindingList;
       }
     }
   }

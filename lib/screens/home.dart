@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       // 'Thursday 10/15',
                       DateFormat('EEEE M/yy')
-                          .format(providerData.selectedRemindingDate)
+                          .format(providerData.selectedRemindingDate[0])
                           .toString(),
                       style: TextStyle(fontSize: 18),
                     )
@@ -125,17 +125,35 @@ class _HomeScreenState extends State<HomeScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
+                    child: Center(
+                      child: Icon(
+                        Icons.edit,
+                        size: 0.10 * width,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
                   width: 20,
                 ),
-                Container(
-                  width: 0.2 * width,
-                  height: 0.2 * width,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                GestureDetector(
+                  onTap: () {
+                    print('Adding a new Asset !');
+                    Navigator.of(context).pushNamed('/addAsset');
+                  },
+                  child: Container(
+                    width: 0.2 * width,
+                    height: 0.2 * width,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.add,
+                          size: 0.12 * width,
+                        ),
+                      ),
                     ),
                   ),
                 ),

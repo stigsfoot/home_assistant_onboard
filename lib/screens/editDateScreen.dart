@@ -67,6 +67,7 @@ class _EditDateScreenState extends State<EditDateScreen> {
       // Navigate to the onboarding Screen again, which will detect
       // that onboardingComplete variable is true
       // And it will render the home dashboard Screen
+      Navigator.of(ctx).pop();
       Navigator.of(ctx).pushReplacementNamed('/onboarding');
     }
   }

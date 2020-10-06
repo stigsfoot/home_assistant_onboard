@@ -60,6 +60,7 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
       // Navigate to the onboarding Screen again, which will detect
       // that onboardingComplete variable is true
       // And it will render the home dashboard Screen
+      Navigator.of(ctx).pop();
       Navigator.of(ctx).pushReplacementNamed('/onboarding');
     }
   }
@@ -173,7 +174,7 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Date Installed: ${hasSelectedInstalledDate ? DateFormat('d/M/y').format(installedDate).toString() : ''}',
+                    'Date Installed: ${hasSelectedInstalledDate ? DateFormat('M/d/y').format(installedDate).toString() : ''}',
                     style: TextStyle(
                       fontSize: 18,
                       // fontWeight: FontWeight.bold,
@@ -202,7 +203,7 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Date to be reminded: ${hasSelectedRemindedDate ? DateFormat('d/M/y').format(remindedDate).toString() : ''}',
+                    'Date to be reminded: ${hasSelectedRemindedDate ? DateFormat('M/d/y').format(remindedDate).toString() : ''}',
                     style: TextStyle(
                       fontSize: 20,
                       // fontWeight: FontWeight.bold,

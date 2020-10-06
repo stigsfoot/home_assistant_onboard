@@ -18,11 +18,17 @@ class MainProvider with ChangeNotifier {
     @required DateTime newAssetInstallDate,
     @required DateTime newAssetRemindingDate,
   }) {
-    this.selectedAssets[index] = newAssetName;
-    this.selectedInstalledDate[index] = newAssetInstallDate;
-    this.selectedRemindingDate[index] = newAssetRemindingDate;
-
-    _updateAssetFirebase();
+    if (this.selectedAssets[index] != newAssetName ||
+        this.selectedInstalledDate[index] != newAssetInstallDate ||
+        this.selectedRemindingDate[index] != newAssetRemindingDate) {
+      print('Updating Assets...');
+      this.selectedAssets[index] = newAssetName;
+      this.selectedInstalledDate[index] = newAssetInstallDate;
+      this.selectedRemindingDate[index] = newAssetRemindingDate;
+      _updateAssetFirebase();
+    } else {
+      print('Nothing new entered...');
+    }
   }
 
   void addAsset(

@@ -32,6 +32,8 @@ class _EditDateScreenState extends State<EditDateScreen> {
 
   String newAssetName;
 
+  TextEditingController textController = TextEditingController();
+
   nextScreen(BuildContext ctx, AuthService auth) {
     if (!hasSelectedInstalledDate || !hasSelectedRemindedDate) {
       Scaffold.of(ctx).removeCurrentSnackBar();
@@ -53,13 +55,23 @@ class _EditDateScreenState extends State<EditDateScreen> {
     } else {
       // All dates have been selected, go to next dashboard screen
       print('All Good!');
+      print('Selected Name:');
+      String newName = textController.value.text.trim();
+      print(newName);
+
+      if (newName != '') {
+        print('Name is OK!');
+      } else {
+        print('Retaining the previous name, nothing has been entered...');
+        newName = widget.selectedAssetText;
+      }
       // Set onboarding as completed Locally
 
       // Set onboarding as completed in user Collection
       // Aslo pass in the data to be uplaoded to Firebase
       final providerData = Provider.of<MainProvider>(ctx, listen: false);
       providerData.editAsset(
-        newAssetName: widget.selectedAssetText,
+        newAssetName: newName,
         index: widget.index,
         newAssetInstallDate: this.installedDate,
         newAssetRemindingDate: this.remindedDate,
@@ -163,7 +175,7 @@ class _EditDateScreenState extends State<EditDateScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
-        title: Text('Add Home Asset'),
+        title: Text('Edit Home Asset'),
       ),
       body: Builder(
         builder: (ctx) => Column(
@@ -190,6 +202,18 @@ class _EditDateScreenState extends State<EditDateScreen> {
             ),
             SizedBox(
               height: 40,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                obscureText: false,
+                controller: this.textController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.edit),
+                  labelText: 'Update Name',
+                ),
+              ),
             ),
             Container(
               margin: EdgeInsets.only(left: 20, top: 20),

@@ -246,8 +246,7 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
             Container(
               margin: EdgeInsets.only(left: 20, top: 40),
               child: FlatButton(
-                  padding: EdgeInsets.all(25),
-                  
+                padding: EdgeInsets.all(25),
                 child: Container(
                   width: 100,
                   height: 20,

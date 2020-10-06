@@ -153,9 +153,9 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      '${widget.selectedAssetText} selected',
+                      'Edit ${widget.selectedAssetText}',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -185,10 +185,10 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
                       onPressed: () {
                         pickInstalledDate(context);
                       },
-                      color: Colors.lightBlueAccent[700],
-                      child: Text(
-                        'Select Date',
-                        textAlign: TextAlign.center,
+                      // color: Colors.lightBlueAccent[700],
+                      child: Icon(
+                        Icons.today,
+                        size: 50,
                       ),
                     ),
                   ),
@@ -204,7 +204,7 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
                   Text(
                     'Date to be reminded: ${hasSelectedRemindedDate ? DateFormat('d/M/y').format(remindedDate).toString() : ''}',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       // fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -214,27 +214,28 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
                       onPressed: () {
                         pickRemindedDate(context);
                       },
-                      color: Colors.lightBlueAccent[700],
-                      child: Text(
-                        'Select Date',
-                        textAlign: TextAlign.center,
+                      //color: Colors.lightBlueAccent[700],
+                      child: Icon(
+                        Icons.today,
+                        size: 50,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 150),
-            Center(
+            SizedBox(height: 30),
+            Container(
+              margin: EdgeInsets.only(left: 20, top: 40),
               child: FlatButton(
                 child: Container(
-                  width: 60,
-                  height: 40,
+                  width: 100,
+                  height: 30,
                   child: Center(
                     child: Text(
-                      'OK',
+                      'Finish',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w400,
                         fontSize: 16,
                       ),
                     ),
@@ -243,7 +244,7 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
                 onPressed: () {
                   nextScreen(ctx, auth);
                 },
-                color: Colors.lightBlueAccent[700],
+                color: Colors.black87,
               ),
             ),
           ],

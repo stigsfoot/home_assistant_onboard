@@ -10,8 +10,36 @@ import '../providers/mainProvider.dart';
 
 class ProfileScreen extends StatelessWidget {
   Future<void> deleteUserData(BuildContext ctx, AuthService auth) async {
-    await auth.deleteUser();
-    Navigator.of(ctx).pushNamedAndRemoveUntil('/', (route) => false);
+    try {
+      await auth.deleteUser();
+      Navigator.of(ctx).pushNamedAndRemoveUntil('/', (route) => false);
+    } catch (e) {
+      showDialog(
+        context: ctx,
+        builder: (BuildContext ctx) {
+          return showRetryDialog(ctx, auth);
+        },
+      );
+    }
+  }
+
+  Widget showRetryDialog(BuildContext ctx, AuthService auth) {
+    Widget confirmButton = FlatButton(
+      child: Text(
+        'Ok',
+      ),
+      onPressed: () {
+        Navigator.of(ctx).pop();
+      },
+    );
+    return AlertDialog(
+      title: Text('Please Re-Login !'),
+      content: Text(
+          'This is a sensitive action and requires recent authentication. Please logout, and then re-login again, and try again.'),
+      actions: [
+        confirmButton,
+      ],
+    );
   }
 
   Widget showAlertDialog(BuildContext ctx, AuthService auth) {

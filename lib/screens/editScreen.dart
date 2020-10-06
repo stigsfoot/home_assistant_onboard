@@ -16,7 +16,7 @@ class _EditScreenState extends State<EditScreen> {
     String selectedAssetText;
     switch (asset) {
       case Assets.Add:
-        selectedAssetText = 'Add';
+        selectedAssetText = 'Custom';
         break;
       case Assets.Appliance:
         selectedAssetText = 'Appliance';

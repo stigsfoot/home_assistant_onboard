@@ -16,7 +16,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     String selectedAssetText;
     switch (asset) {
       case Assets.Add:
-        selectedAssetText = 'Add';
+        selectedAssetText = 'Custom';
         break;
       case Assets.Appliance:
         selectedAssetText = 'Appliance';
@@ -208,7 +208,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Add'),
+                        Text('Custom'),
                       ],
                     ),
                   ),

@@ -16,7 +16,7 @@ class _AddAssetState extends State<AddAsset> {
     String selectedAssetText;
     switch (asset) {
       case Assets.Add:
-        selectedAssetText = 'Add';
+        selectedAssetText = 'Custom';
         break;
       case Assets.Appliance:
         selectedAssetText = 'Appliance';
@@ -160,7 +160,7 @@ class _AddAssetState extends State<AddAsset> {
                       SizedBox(
                         height: 10,
                       ),
-                      Text('Add'),
+                      Text('Custom'),
                     ],
                   ),
                 ),

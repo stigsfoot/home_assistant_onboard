@@ -134,7 +134,6 @@ class _EditDateScreenState extends State<EditDateScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     final providerData = Provider.of<MainProvider>(context, listen: false);
     this.newAssetName = widget.selectedAssetText;

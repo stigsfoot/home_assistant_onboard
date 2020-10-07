@@ -40,6 +40,7 @@ class AuthService {
     // Also set the global variables here in Provider
     // Access the main Provider
     final providerData = Provider.of<MainProvider>(ctx, listen: false);
+
     // Set provider Data
     // Bug coming up here, previous selected Assets are not being deleted locally
     // Work aroud
@@ -55,7 +56,6 @@ class AuthService {
     this.selectedInstalledDate = [installedDate];
     this.selectedRemindingDate = [reminderDate];
     this.selectedAssetsType = [assetType];
-
   }
 
   // Set onboarding complete in users Collection for when the user completes the onboarding

@@ -24,6 +24,8 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
   bool hasSelectedRemindedDate = false;
   DateTime remindedDate;
 
+  TextEditingController textController = TextEditingController();
+
   nextScreen(BuildContext ctx, AuthService auth) {
     if (!hasSelectedInstalledDate || !hasSelectedRemindedDate) {
       Scaffold.of(ctx).removeCurrentSnackBar();
@@ -46,13 +48,24 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
       // All dates have been selected, go to next dashboard screen
       print('All Good!');
       // Set onboarding as completed Locally
+      print('Selected Name:');
+      String newName = textController.value.text.trim();
+      print(newName);
+
+      if (newName != '') {
+        print('Name is OK!');
+      } else {
+        print('Retaining the original Asset name, nothing has been entered...');
+        newName = widget.selectedAssetText;
+        print(newName);
+        // newName = '';
+      }
 
       // Set onboarding as completed in user Collection
       // Aslo pass in the data to be uplaoded to Firebase
       final providerData = Provider.of<MainProvider>(ctx, listen: false);
-      // TODO: when you Add suport for custom Asset title, pass it here
       providerData.addAsset(
-        selectedAssetText: widget.selectedAssetText,
+        selectedAssetText: newName,
         assetType: widget.selectedAssetText,
         installedDate: this.installedDate,
         reminderDate: this.remindedDate,
@@ -107,6 +120,7 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
   Widget build(BuildContext context) {
     final providerData = Provider.of<MainProvider>(context, listen: false);
     final AuthService auth = providerData.auth;
+
     Widget returnSelectedAssetIcon() {
       if (widget.selectedAsset == Assets.HVAC) {
         return Icon(
@@ -166,6 +180,18 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
             ),
             SizedBox(
               height: 40,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                obscureText: false,
+                controller: this.textController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.edit),
+                  labelText: 'Asset Name',
+                ),
+              ),
             ),
             Container(
               margin: EdgeInsets.only(left: 20, top: 20),

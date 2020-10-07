@@ -19,23 +19,7 @@ class _EditScreenState extends State<EditScreen> {
     } else {
       selectedAssetText = asset;
     }
-    // switch (asset) {
-    //   case Assets.Add:
-    //     selectedAssetText = 'Custom';
-    //     break;
-    //   case Assets.Appliance:
-    //     selectedAssetText = 'Appliance';
-    //     break;
-    //   case Assets.HVAC:
-    //     selectedAssetText = 'HVAC';
-    //     break;
-    //   case Assets.Plumbing:
-    //     selectedAssetText = 'Plumbing';
-    //     break;
-    //   case Assets.Roof:
-    //     selectedAssetText = 'Roof';
-    //     break;
-    // }
+
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) {
@@ -115,122 +99,7 @@ class _EditScreenState extends State<EditScreen> {
         );
       },
     );
-    // assetsList.asMap().forEach(
-    //   (index, asset) {
-    //     if (asset == 'Roof') {
-    //       gridRenderList.add(
-    //         GestureDetector(
-    //           onTap: () {
-    //             print(Assets.Roof);
-    //             print(index);
-    //             gotoEditScreen(Assets.Roof, index);
-    //           },
-    //           child: Card(
-    //             child: Container(
-    //               child: Column(
-    //                 mainAxisAlignment: MainAxisAlignment.center,
-    //                 children: [
-    //                   Icon(
-    //                     Icons.roofing,
-    //                     size: 40,
-    //                   ),
-    //                   SizedBox(
-    //                     height: 10,
-    //                   ),
-    //                   Text('Roof'),
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       );
-    //     } else if (asset == 'HVAC') {
-    //       gridRenderList.add(
-    //         GestureDetector(
-    //           onTap: () {
-    //             print(Assets.HVAC);
-    //             print(index);
-    //             gotoEditScreen(Assets.HVAC, index);
-    //           },
-    //           child: Card(
-    //             child: Container(
-    //               child: Column(
-    //                 mainAxisAlignment: MainAxisAlignment.center,
-    //                 children: [
-    //                   Icon(
-    //                     Icons.hvac,
-    //                     size: 40,
-    //                   ),
-    //                   SizedBox(
-    //                     height: 10,
-    //                   ),
-    //                   Text('HVAC'),
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       );
-    //     } else if (asset == 'Plumbing') {
-    //       gridRenderList.add(
-    //         GestureDetector(
-    //           onTap: () {
-    //             print(Assets.Plumbing);
-    //             print(index);
-    //             gotoEditScreen(Assets.Plumbing, index);
-    //           },
-    //           child: Card(
-    //             child: Container(
-    //               child: Column(
-    //                 mainAxisAlignment: MainAxisAlignment.center,
-    //                 children: [
-    //                   Icon(
-    //                     Icons.plumbing,
-    //                     size: 40,
-    //                   ),
-    //                   SizedBox(
-    //                     height: 10,
-    //                   ),
-    //                   Text('Plumbing'),
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       );
-    //     } else if (asset == 'Appliance') {
-    //       gridRenderList.add(
-    //         GestureDetector(
-    //           onTap: () {
-    //             print(Assets.Appliance);
-    //             print(index);
-    //             gotoEditScreen(Assets.Appliance, index);
-    //           },
-    //           child: Card(
-    //             child: Container(
-    //               child: Column(
-    //                 mainAxisAlignment: MainAxisAlignment.center,
-    //                 children: [
-    //                   Icon(
-    //                     Icons.kitchen,
-    //                     size: 40,
-    //                   ),
-    //                   SizedBox(
-    //                     height: 10,
-    //                   ),
-    //                   Text('Appliances'),
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       );
-    //     } else {
-    //       print(asset);
-    //       print('IT IS NOT IN GROUP !');
-    //     }
-    //   },
-    // );
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,

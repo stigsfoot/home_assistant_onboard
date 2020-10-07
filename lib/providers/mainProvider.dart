@@ -31,6 +31,20 @@ class MainProvider with ChangeNotifier {
     }
   }
 
+  List returnOrigReminderList() {
+    final x = selectedRemindingDate;
+    return x;
+  }
+
+  void deleteAsset(int index) {
+    this.selectedAssets.removeAt(index);
+    this.selectedAssetType.removeAt(index);
+    this.selectedInstalledDate.removeAt(index);
+    this.selectedRemindingDate.removeAt(index);
+    notifyListeners();
+    _updateAssetFirebase();
+  }
+
   void addAsset(
       {@required String selectedAssetText,
       @required String assetType,

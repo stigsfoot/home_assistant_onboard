@@ -154,7 +154,7 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      'Edit ${widget.selectedAssetText}',
+                      'Add ${widget.selectedAssetText}',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,

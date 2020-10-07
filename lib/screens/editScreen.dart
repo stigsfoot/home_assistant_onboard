@@ -12,7 +12,7 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
-  void gotoEditScreen(String asset, int index) {
+  void gotoEditScreen(String asset, int index, String realName) {
     String selectedAssetText;
     if (asset == 'Add') {
       selectedAssetText = 'Custom';
@@ -43,6 +43,7 @@ class _EditScreenState extends State<EditScreen> {
             selectedAsset: asset,
             index: index,
             selectedAssetText: selectedAssetText,
+            realName: realName,
           );
         },
       ),
@@ -69,7 +70,7 @@ class _EditScreenState extends State<EditScreen> {
           Icons.power,
           size: 40,
         );
-      } else if (selectedAsset == 'Appliances') {
+      } else if (selectedAsset == 'Appliance') {
         return Icon(
           Icons.kitchen,
           size: 40,
@@ -94,7 +95,7 @@ class _EditScreenState extends State<EditScreen> {
             onTap: () {
               print(assetTypes[index]);
               print(index);
-              gotoEditScreen(assetTypes[index], index);
+              gotoEditScreen(assetTypes[index], index, asset);
             },
             child: Card(
               child: Container(

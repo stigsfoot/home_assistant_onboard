@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import '../services/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../services/services.dart';
 import '../providers/mainProvider.dart';
+import './screens.dart';
 
 class EditDateScreen extends StatefulWidget {
   EditDateScreen({
@@ -10,6 +13,8 @@ class EditDateScreen extends StatefulWidget {
     @required this.selectedAsset,
     @required this.selectedAssetText,
     @required this.index,
+    @required this.realName,
+    this.canBeDeleted,
   }) : super(key: key);
 
   // The Selected Asset as an Enum
@@ -18,6 +23,9 @@ class EditDateScreen extends StatefulWidget {
   final selectedAssetText;
   // The index of the Asset selected
   final int index;
+  // The real string name of the asset
+  final String realName;
+  final bool canBeDeleted;
 
   @override
   _EditDateScreenState createState() => _EditDateScreenState();
@@ -63,7 +71,9 @@ class _EditDateScreenState extends State<EditDateScreen> {
         print('Name is OK!');
       } else {
         print('Retaining the previous name, nothing has been entered...');
-        newName = widget.selectedAssetText;
+        newName = widget.realName;
+        print(widget.realName);
+        // newName = '';
       }
       // Set onboarding as completed Locally
 
@@ -144,22 +154,23 @@ class _EditDateScreenState extends State<EditDateScreen> {
     // this.hasSelectedInstalledDate = true;
     // this.hasSelectedRemindedDate = true;
     Widget returnSelectedAssetIcon() {
-      if (widget.selectedAsset == Assets.HVAC) {
+      if (widget.selectedAsset == 'HVAC') {
         return Icon(
           Icons.hvac,
           size: 23,
         );
-      } else if (widget.selectedAsset == Assets.Add) {
+      } else if (widget.selectedAsset == 'Add' ||
+          widget.selectedAsset == 'Custom') {
         return Icon(
           Icons.power,
           size: 23,
         );
-      } else if (widget.selectedAsset == Assets.Appliance) {
+      } else if (widget.selectedAsset == 'Appliance') {
         return Icon(
           Icons.kitchen,
           size: 23,
         );
-      } else if (widget.selectedAsset == Assets.Plumbing) {
+      } else if (widget.selectedAsset == 'Plumbing') {
         return Icon(
           Icons.plumbing,
           size: 23,
@@ -170,6 +181,37 @@ class _EditDateScreenState extends State<EditDateScreen> {
           size: 23,
         );
       }
+    }
+
+    Widget showAlertDialog(BuildContext ctx, AuthService auth) {
+      Widget cancelButton = FlatButton(
+        child: Text('Cancel'),
+        onPressed: () {
+          Navigator.of(ctx).pop();
+        },
+      );
+      Widget confirmButton = FlatButton(
+        child: Text(
+          'Confirm',
+          style: TextStyle(
+            color: Colors.red,
+          ),
+        ),
+        onPressed: () {
+          Navigator.of(ctx).pop();
+          providerData.deleteAsset(widget.index);
+          Navigator.of(ctx).pop();
+        },
+      );
+      return AlertDialog(
+        title: Text('Are you sure ?'),
+        content: Text(
+            'This will delete this Asset permanently. Are you sure you want to proceed ?'),
+        actions: [
+          cancelButton,
+          confirmButton,
+        ],
+      );
     }
 
     return Scaffold(
@@ -190,7 +232,7 @@ class _EditDateScreenState extends State<EditDateScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      '${widget.selectedAssetText} selected',
+                      '${widget.realName} selected',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -294,6 +336,28 @@ class _EditDateScreenState extends State<EditDateScreen> {
                 },
                 color: Colors.lightBlueAccent[700],
               ),
+            ),
+            Expanded(
+              child: Container(),
+            ),
+            PrivacySettingsButton(
+              text: 'Delete Asset',
+              icon: FontAwesomeIcons.trash,
+              color: Colors.red,
+              onPress: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext ctx) {
+                    return showAlertDialog(context, auth);
+                  },
+                );
+              },
+              //   Navigator.of(context).push(
+              //     MaterialPageRoute(builder: (ctx) {
+              //       return PrivacyScreen();
+              //     }),
+              //   );
+              // },
             ),
           ],
         ),

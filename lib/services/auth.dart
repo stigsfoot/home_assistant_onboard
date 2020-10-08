@@ -41,21 +41,19 @@ class AuthService {
     // Access the main Provider
     final providerData = Provider.of<MainProvider>(ctx, listen: false);
 
-    // Set provider Data
-    // Bug coming up here, previous selected Assets are not being deleted locally
-    // Work aroud
-    // TODO: Fix this when adding support for multiple Assets
     providerData.selectedAssets = [assetText];
     providerData.selectedInstalledDate = [installedDate];
     providerData.selectedRemindingDate = [reminderDate];
     providerData.selectedAssetType = [assetType];
     providerData.isOnboardingComplete = true;
 
-    // TODO: Aslo fix it here
     this.selectedAssets = [assetText];
     this.selectedInstalledDate = [installedDate];
     this.selectedRemindingDate = [reminderDate];
     this.selectedAssetsType = [assetType];
+
+    // Set reminder for this Asset:
+    providerData.scheduleNotifications();
   }
 
   // Set onboarding complete in users Collection for when the user completes the onboarding

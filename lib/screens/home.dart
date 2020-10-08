@@ -82,6 +82,12 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: indexSortedList.length <= 6
           ? FloatingActionButton(
               onPressed: () {
+                // To get a test notification, uncomment this code below,
+                // You will get a notification 5 Seconds after you pressed this FAB:
+
+                // providerData.scheduleNotificationTest();
+                // print('Scheduled Notification Test!');
+
                 print('Adding a new Asset !');
                 Navigator.of(context).pushNamed('/addAsset');
               },

@@ -19,7 +19,7 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
-  
+
 # No need for iOS deps during POC period.
 dependencies:
   flutter:
@@ -29,13 +29,17 @@ dependencies:
 
   firebase_core: 0.4.4+3
   firebase_analytics: 5.0.11
+  firebase_messaging:
 
   cloud_firestore: 0.13.4+2
 
   firebase_auth: 0.15.5+3
   google_sign_in: 4.4.1
-  
+
   apple_sign_in: 0.1.0
+
+  flutter_local_notifications: ^2.0.0
+  flutter_native_timezone: ^1.0.4
 
   rxdart: 0.23.1
   provider: 4.0.5

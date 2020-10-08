@@ -135,7 +135,7 @@ class PrivacySettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(bottom: 0),
       child: FlatButton.icon(
         padding: EdgeInsets.all(30),
         icon: Icon(icon, color: Colors.white),

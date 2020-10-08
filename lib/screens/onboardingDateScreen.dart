@@ -27,6 +27,8 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
   bool hasSelectedRemindedDate = false;
   DateTime remindedDate;
 
+  TextEditingController textController = TextEditingController();
+
   nextScreen(BuildContext ctx, AuthService auth) {
     if (!hasSelectedInstalledDate || !hasSelectedRemindedDate) {
       Scaffold.of(ctx).removeCurrentSnackBar();
@@ -48,11 +50,21 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
     } else {
       // All dates have been selected, go to next dashboard screen
       print('All Good!');
+      print('Selected Name:');
+      String newName = textController.value.text.trim();
+      print(newName);
+
+      if (newName != '') {
+        print('Name is OK!');
+      } else {
+        print('Retaining the original name, nothing has been entered...');
+        newName = widget.selectedAssetText;
+        print(widget.selectedAssetText);
+      }
       // Set onboarding as completed Locally
       // And also set the vaiables locally
       auth.setOnboardingCompleteLocally(
-        widget.selectedAssetText,
-        // TODO: this is the type, now you can set type to custom, and change name off asset if you want
+        newName,
         widget.selectedAssetText,
         installedDate,
         remindedDate,
@@ -61,8 +73,7 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
       // Set onboarding as completed in user Collection
       // Aslo pass in the data to be uplaoded to Firebase
       auth.setOnboardingComplete(
-        widget.selectedAssetText,
-        // TODO: this is the type, now you can set type to custom, and change name off asset if you want
+        newName,
         widget.selectedAssetText,
         installedDate,
         remindedDate,
@@ -175,6 +186,18 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
             ),
             SizedBox(
               height: 40,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                obscureText: false,
+                controller: this.textController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.edit),
+                  labelText: 'Asset Name',
+                ),
+              ),
             ),
             Container(
               margin: EdgeInsets.only(left: 20, top: 20),

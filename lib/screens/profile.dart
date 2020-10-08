@@ -165,8 +165,8 @@ class ProfileScreen extends StatelessWidget {
       );
     } else {
       return Container(
-        color: Colors.black87,
-      );
+          // color: Colors.black87,
+          );
       // return Text('User is not authenticated');
     }
   }

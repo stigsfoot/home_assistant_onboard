@@ -26,6 +26,7 @@ class LoginScreenState extends State<LoginScreen> {
         }
       },
     );
+    providerData.initNotifications();
   }
 
   @override

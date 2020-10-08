@@ -3,6 +3,7 @@ import '../services/services.dart';
 import '../shared/shared.dart';
 import '../screens/screens.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import '../providers/mainProvider.dart';
 

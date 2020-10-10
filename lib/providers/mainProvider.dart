@@ -19,6 +19,20 @@ class MainProvider with ChangeNotifier {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   String currentTimeZone;
+  // Value for Recieve Notifications Switch
+  bool recieveNotifications = true;
+
+  Future<void> changeNotificationStatus() async {
+    if (!this.recieveNotifications) {
+      // Remove all existing notifications, if it is set to false
+      await flutterLocalNotificationsPlugin.cancelAll();
+    } else {
+      // Set all notifications again, as user could have selected false
+      // Which would have cleared all existing notifications
+      await scheduleNotifications();
+    }
+    await _updateAssetFirebase();
+  }
 
   // Initialize the Flutter Notification Plugin
   Future<void> initNotifications() async {
@@ -120,7 +134,8 @@ class MainProvider with ChangeNotifier {
     if (this.selectedAssets[index] != newAssetName ||
         this.selectedInstalledDate[index] != newAssetInstallDate ||
         this.selectedRemindingDate[index] != newAssetRemindingDate) {
-      if (this.selectedRemindingDate[index] != newAssetRemindingDate) {
+      if ((this.selectedRemindingDate[index] != newAssetRemindingDate) &&
+          this.recieveNotifications) {
         // schedule notification
         scheduleNotifications();
       }
@@ -191,6 +206,7 @@ class MainProvider with ChangeNotifier {
         'selectedAssets': selectedAssets,
         'installedDate': selectedInstalledDate,
         'remindingDate': selectedRemindingDate,
+        'recieveNotifications': recieveNotifications,
       },
     );
   }

@@ -8,7 +8,12 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../providers/mainProvider.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> deleteUserData(BuildContext ctx, AuthService auth) async {
     try {
       await auth.deleteUser();
@@ -72,10 +77,20 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  void changeNotificationRecieveValue(bool value, MainProvider providerData) {
+    setState(
+      () {
+        providerData.recieveNotifications = value;
+        providerData.changeNotificationStatus();
+        print(value);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of<FirebaseUser>(context);
-    final providerData = Provider.of<MainProvider>(context, listen: false);
+    final providerData = Provider.of<MainProvider>(context, listen: true);
     final AuthService auth = providerData.auth;
     final int numberOfReminders = providerData.selectedAssets.length;
 
@@ -137,7 +152,16 @@ class ProfileScreen extends StatelessWidget {
                         .pushNamedAndRemoveUntil('/', (route) => false);
                   }),
               Spacer(),
-
+              SwitchListTile(
+                value: providerData.recieveNotifications,
+                onChanged: (value) {
+                  changeNotificationRecieveValue(value, providerData);
+                },
+                title: Text('Recieve Notifications'),
+              ),
+              SizedBox(
+                height: 10,
+              ),
               // Privacy settings
 
               PrivacySettingsButton(

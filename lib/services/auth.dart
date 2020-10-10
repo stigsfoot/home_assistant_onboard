@@ -93,11 +93,6 @@ class AuthService {
       AuthResult result = await _auth.signInWithCredential(credential);
       FirebaseUser user = result.user;
 
-      // Update user data
-      // FIXED THIS:
-      // You didn't add Rule for the write,read for the report collection.
-      // that's why the report collection wasn't created.
-      // I added the Rule to fix it.
       updateUserData(user);
       await createUser(user);
 

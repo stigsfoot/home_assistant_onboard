@@ -189,7 +189,7 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.edit),
-                  labelText: 'Asset Name',
+                  labelText: 'Personalize ${widget.selectedAssetText} Asset',
                 ),
               ),
             ),
@@ -256,8 +256,8 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
               margin: EdgeInsets.only(left: 20, top: 40),
               child: FlatButton(
                 child: Container(
-                  width: 100,
-                  height: 30,
+                  width: 120,
+                  height: 60,
                   child: Center(
                     child: Text(
                       'Finish',

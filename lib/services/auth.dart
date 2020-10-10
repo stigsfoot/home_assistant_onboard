@@ -18,6 +18,9 @@ class AuthService {
   // Variable for Reminder Notifications Status
   bool recieveNotifications;
 
+  // User's Address
+  String address;
+
   // Variable for selected Assets
   List selectedAssets = [];
   List selectedInstalledDate;
@@ -56,6 +59,7 @@ class AuthService {
     this.selectedRemindingDate = [reminderDate];
     this.selectedAssetsType = [assetType];
     this.recieveNotifications = true;
+    this.address = null;
 
     // Set reminder for this Asset:
     providerData.scheduleNotifications();
@@ -80,6 +84,7 @@ class AuthService {
         'installedDate': [selectedInstalledDate],
         'remindingDate': [selectedReminderDate],
         'recieveNotifications': true,
+        'address': null,
       },
     );
   }
@@ -173,6 +178,7 @@ class AuthService {
         this.selectedRemindingDate = tempRemindingList;
         this.selectedAssetsType = ds.data['type'];
         this.recieveNotifications = ds.data['recieveNotifications'];
+        this.address = ds.data['address'];
       }
     }
   }

@@ -14,6 +14,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  TextEditingController textController = TextEditingController();
+
   Future<void> deleteUserData(BuildContext ctx, AuthService auth) async {
     try {
       await auth.deleteUser();
@@ -94,6 +96,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final AuthService auth = providerData.auth;
     final int numberOfReminders = providerData.selectedAssets.length;
 
+    void submitAddress() {
+      print('Submitting Address...');
+      final address = textController.value.text.trim();
+      providerData.address = address;
+      providerData.setAddress();
+      setState(() {});
+    }
+
+    Widget returnAddress() {
+      if (providerData.address != null) {
+        return Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            providerData.address,
+            textAlign: TextAlign.center,
+          ),
+        );
+      } else {
+        return Padding(
+          padding: const EdgeInsets.all(10),
+          child: TextField(
+            controller: textController,
+            onEditingComplete: submitAddress,
+            obscureText: false,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.home),
+              labelText: 'Update Location',
+            ),
+          ),
+        );
+      }
+    }
+
     if (user != null) {
       return Scaffold(
         appBar: AppBar(
@@ -129,17 +165,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     textAlign: TextAlign.center),
               ),
 
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextField(
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.home),
-                    labelText: 'Update Location',
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(10),
+              //   child: TextField(
+              //     controller: textController,
+              //     onEditingComplete: submitAddress,
+              //     obscureText: false,
+              //     decoration: InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       prefixIcon: Icon(Icons.home),
+              //       labelText: 'Update Location',
+              //     ),
+              //   ),
+              // ),
+              returnAddress(),
 
               Spacer(),
               FlatButton(

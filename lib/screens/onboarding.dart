@@ -232,6 +232,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       providerData.selectedAssetType = providerData.auth.selectedAssetsType;
       providerData.recieveNotifications =
           providerData.auth.recieveNotifications;
+      providerData.address = providerData.auth.address;
       return BottomNavBar();
       // Reminder: MockScreen() goes here if all else fails :D
     }

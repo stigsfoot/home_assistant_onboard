@@ -21,6 +21,12 @@ class MainProvider with ChangeNotifier {
   String currentTimeZone;
   // Value for Recieve Notifications Switch
   bool recieveNotifications = true;
+  // User's address
+  String address;
+
+  Future<void> setAddress() async {
+    await _updateAssetFirebase();
+  }
 
   Future<void> changeNotificationStatus() async {
     if (!this.recieveNotifications) {
@@ -207,6 +213,7 @@ class MainProvider with ChangeNotifier {
         'installedDate': selectedInstalledDate,
         'remindingDate': selectedRemindingDate,
         'recieveNotifications': recieveNotifications,
+        'address': address,
       },
     );
   }

@@ -15,6 +15,12 @@ class AuthService {
   // Variable for the is onboarding complete or not.
   bool isOnboardingComplete;
 
+  // Variable for Reminder Notifications Status
+  bool recieveNotifications;
+
+  // User's Address
+  String address;
+
   // Variable for selected Assets
   List selectedAssets = [];
   List selectedInstalledDate;
@@ -46,11 +52,14 @@ class AuthService {
     providerData.selectedRemindingDate = [reminderDate];
     providerData.selectedAssetType = [assetType];
     providerData.isOnboardingComplete = true;
+    providerData.recieveNotifications = true;
 
     this.selectedAssets = [assetText];
     this.selectedInstalledDate = [installedDate];
     this.selectedRemindingDate = [reminderDate];
     this.selectedAssetsType = [assetType];
+    this.recieveNotifications = true;
+    this.address = null;
 
     // Set reminder for this Asset:
     providerData.scheduleNotifications();
@@ -74,6 +83,8 @@ class AuthService {
         'type': [selectedAssetType],
         'installedDate': [selectedInstalledDate],
         'remindingDate': [selectedReminderDate],
+        'recieveNotifications': true,
+        'address': null,
       },
     );
   }
@@ -166,6 +177,8 @@ class AuthService {
         this.selectedInstalledDate = tempInstalledList;
         this.selectedRemindingDate = tempRemindingList;
         this.selectedAssetsType = ds.data['type'];
+        this.recieveNotifications = ds.data['recieveNotifications'];
+        this.address = ds.data['address'];
       }
     }
   }

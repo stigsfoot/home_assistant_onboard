@@ -9,7 +9,7 @@ import 'package:home_assistant_onboard/services/services.dart';
 import './providers/mainProvider.dart';
 
 // fewer lines
-// import 'screens/screens.dart';
+import 'screens/screens.dart';
 
 void main() => runApp(MyApp());
 
@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
           '/onboarding': (context) => OnboardingScreen(),
           '/addAsset': (context) => AddAsset(),
           '/editAsset': (context) => EditScreen(),
+          '/editAddress': (context) => EmailEditScreen(),
         },
 
         // Theme

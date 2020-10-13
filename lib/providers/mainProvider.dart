@@ -24,7 +24,10 @@ class MainProvider with ChangeNotifier {
   // User's address
   String address;
 
+  // Set the Address
+  // Notify Profile Screen to Re-Render
   Future<void> setAddress() async {
+    notifyListeners();
     await _updateAssetFirebase();
   }
 

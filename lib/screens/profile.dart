@@ -99,21 +99,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     void submitAddress() {
       print('Submitting Address...');
       final address = textController.value.text.trim();
-      providerData.address = address;
-      providerData.setAddress();
-      setState(() {});
+      if (address != '') {
+        providerData.address = address;
+        providerData.setAddress();
+        setState(() {});
+      } else {
+        print('Address is Empty...');
+      }
     }
 
     Widget returnAddress() {
-      if (providerData.address != null) {
-        return Padding(
-          padding: const EdgeInsets.all(10),
-          child: Text(
-            providerData.address,
-            textAlign: TextAlign.center,
+      if (providerData.address != null && providerData.address != '') {
+        return GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed('/editAddress');
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(
+              providerData.address,
+              textAlign: TextAlign.center,
+            ),
           ),
         );
       } else {
+        print(providerData.address);
+        print(providerData.address);
         return Padding(
           padding: const EdgeInsets.all(10),
           child: TextField(
@@ -123,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               prefixIcon: Icon(Icons.home),
-              labelText: 'Update Location',
+              labelText: 'Update Address',
             ),
           ),
         );

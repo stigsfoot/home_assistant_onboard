@@ -17,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
     final providerData = Provider.of<MainProvider>(context, listen: true);
     // Cloning the original List, so that calling sort on this list
     // Does not change the original one
@@ -78,6 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
 
+    print('Status Bar Height:');
+    print(statusBarHeight);
+
     return Scaffold(
       floatingActionButton: indexSortedList.length <= 6
           ? FloatingActionButton(
@@ -103,6 +107,24 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: statusBarHeight + 10, right: 10),
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.notifications,
+                      size: 30,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/notif');
+                    },
+                  )
+                ],
+              ),
+            ),
             GestureDetector(
               onTap: () {
                 if (indexSortedList.length > 0) {
@@ -136,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 width: 0.7 * width,
                 height: 0.7 * width,
-                margin: EdgeInsets.only(top: 80),
+                margin: EdgeInsets.only(top: 70 - statusBarHeight),
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),

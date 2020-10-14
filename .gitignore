@@ -75,3 +75,4 @@
 .flutter-plugins-dependencies
 .flutter-plugins-dependencies
 *.lock
+pubspec.lock

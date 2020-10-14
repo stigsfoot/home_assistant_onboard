@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         //Routes
         routes: {
           '/': (context) => LoginScreen(),
+          '/notif': (context) => NotificationScreen(),
           //'/about': (context) => AboutScreen(),
           '/profile': (context) => ProfileScreen(),
           //'/reminders': (context) => RemindersScreen(),

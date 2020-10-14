@@ -12,3 +12,4 @@ export 'addAssetDateScreen.dart';
 export 'editScreen.dart';
 export 'editDateScreen.dart';
 export 'editEmailScreen.dart';
+export 'notificationsScreen.dart';

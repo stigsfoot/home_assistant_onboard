@@ -94,40 +94,55 @@ class _NotificationScreenState extends State<NotificationScreen> {
       }
     }
 
+    void deleteNotif(int index) {
+      setState(
+        () {
+          providerData.hasRemovedNotif[index] = true;
+          providerData.updateFirebase();
+        },
+      );
+    }
+
     // List to pass to the Column Widget to render
     List renderList = <Widget>[];
     indexSortedList.forEach(
       (index) {
-        renderList.add(
-          Container(
-            width: double.infinity,
-            height: 0.1 * height,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  returnSelectedAssetIcon(
-                    providerData.selectedAssetType[index],
-                  ),
-                  Container(
-                    width: 0.6 * width,
-                    child: Text(providerData.selectedAssets[index]),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.delete,
-                      color: Colors.red,
+        if (!providerData.hasRemovedNotif[index]) {
+          renderList.add(
+            Container(
+              width: double.infinity,
+              height: 0.1 * height,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    returnSelectedAssetIcon(
+                      providerData.selectedAssetType[index],
                     ),
-                  )
-                ],
+                    Container(
+                      width: 0.6 * width,
+                      child: Text(providerData.selectedAssets[index]),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        deleteNotif(index);
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        );
+          );
+        } else {
+          print('Has removed Notification at index: $index');
+        }
       },
     );
 

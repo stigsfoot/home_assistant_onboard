@@ -6,7 +6,7 @@ import '../providers/mainProvider.dart';
 class PrivacyScreen extends StatelessWidget {
   Future<void> deleteUserData(BuildContext ctx, AuthService auth) async {
     try {
-      await auth.deleteUser();
+      await auth.deleteUser(ctx);
       Navigator.of(ctx).pushNamedAndRemoveUntil('/', (route) => false);
     } catch (e) {
       showDialog(

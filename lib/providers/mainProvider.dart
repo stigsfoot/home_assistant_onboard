@@ -9,6 +9,8 @@ import 'package:timezone/timezone.dart' as tz;
 
 // TODO: Document
 class MainProvider with ChangeNotifier {
+  // List for determining if user has deleted this notification in the Notifications Screen
+  List hasRemovedNotif = <bool>[];
   List selectedAssets = [];
   List selectedAssetType = [];
   List selectedInstalledDate;
@@ -24,11 +26,20 @@ class MainProvider with ChangeNotifier {
   // User's address
   String address;
 
+  // Function for updating data in Firebase, it is a public function.
+  Future<void> updateFirebase() async {
+    await _updateAssetFirebase();
+  }
+
   // Set the Address
   // Notify Profile Screen to Re-Render
   Future<void> setAddress() async {
     notifyListeners();
     await _updateAssetFirebase();
+  }
+
+  Future<void> removeAllNotifications() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 
   Future<void> changeNotificationStatus() async {
@@ -174,6 +185,7 @@ class MainProvider with ChangeNotifier {
     this.selectedAssetType.removeAt(index);
     this.selectedInstalledDate.removeAt(index);
     this.selectedRemindingDate.removeAt(index);
+    this.hasRemovedNotif.removeAt(index);
     // Notify home.dart to Re-render home screen
     notifyListeners();
     // Update Firebase
@@ -195,6 +207,7 @@ class MainProvider with ChangeNotifier {
     selectedInstalledDate.add(installedDate);
     selectedRemindingDate.add(reminderDate);
     selectedAssetType.add(assetType);
+    hasRemovedNotif.add(false);
     // Update Firebase
     _updateAssetFirebase();
     // Schedule All notifications again:
@@ -217,6 +230,7 @@ class MainProvider with ChangeNotifier {
         'remindingDate': selectedRemindingDate,
         'recieveNotifications': recieveNotifications,
         'address': address,
+        'hasRemovedNotif': hasRemovedNotif,
       },
     );
   }

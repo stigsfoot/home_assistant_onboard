@@ -233,6 +233,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       providerData.recieveNotifications =
           providerData.auth.recieveNotifications;
       providerData.address = providerData.auth.address;
+      providerData.hasRemovedNotif = providerData.auth.hasRemovedNotif;
+      providerData.scheduleNotifications();
+      print('Successfully configured all data in the Provider...');
       return BottomNavBar();
       // Reminder: MockScreen() goes here if all else fails :D
     }

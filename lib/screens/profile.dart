@@ -18,7 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> deleteUserData(BuildContext ctx, AuthService auth) async {
     try {
-      await auth.deleteUser();
+      await auth.deleteUser(ctx);
       Navigator.of(ctx).pushNamedAndRemoveUntil('/', (route) => false);
     } catch (e) {
       showDialog(
@@ -193,14 +193,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               Spacer(),
               FlatButton(
-                  child: Text('LOGOUT'),
-                  padding: EdgeInsets.all(25),
-                  color: Colors.black87,
-                  onPressed: () async {
-                    await auth.signOut();
-                    Navigator.of(context)
-                        .pushNamedAndRemoveUntil('/', (route) => false);
-                  }),
+                child: Text('LOGOUT'),
+                padding: EdgeInsets.all(25),
+                color: Colors.black87,
+                onPressed: () async {
+                  await providerData.removeAllNotifications();
+                  await auth.signOut();
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/', (route) => false);
+                },
+              ),
               Spacer(),
               SwitchListTile(
                 value: providerData.recieveNotifications,

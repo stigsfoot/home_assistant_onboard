@@ -26,6 +26,7 @@ class AuthService {
   List selectedInstalledDate;
   List selectedRemindingDate;
   List selectedAssetsType = [];
+  List hasRemovedNotif = <bool>[];
 
   // Firebase user one-time fetch
   Future<FirebaseUser> get getUser => _auth.currentUser();
@@ -53,12 +54,14 @@ class AuthService {
     providerData.selectedAssetType = [assetType];
     providerData.isOnboardingComplete = true;
     providerData.recieveNotifications = true;
+    providerData.hasRemovedNotif = [false];
 
     this.selectedAssets = [assetText];
     this.selectedInstalledDate = [installedDate];
     this.selectedRemindingDate = [reminderDate];
     this.selectedAssetsType = [assetType];
     this.recieveNotifications = true;
+    this.hasRemovedNotif = [false];
     this.address = null;
 
     // Set reminder for this Asset:
@@ -85,6 +88,7 @@ class AuthService {
         'remindingDate': [selectedReminderDate],
         'recieveNotifications': true,
         'address': null,
+        'hasRemovedNotif': [false],
       },
     );
   }
@@ -179,6 +183,7 @@ class AuthService {
         this.selectedAssetsType = ds.data['type'];
         this.recieveNotifications = ds.data['recieveNotifications'];
         this.address = ds.data['address'];
+        this.hasRemovedNotif = ds.data['hasRemovedNotif'];
       }
     }
   }
@@ -199,9 +204,10 @@ class AuthService {
   }
 
   // Delete User
-  Future<void> deleteUser() async {
+  Future<void> deleteUser(BuildContext ctx) async {
     FirebaseUser user = await getUser;
     try {
+      await Provider.of<MainProvider>(ctx, listen: false).removeAllNotifications();
       await user.delete();
     } catch (e) {
       print('Error Deleting User!');

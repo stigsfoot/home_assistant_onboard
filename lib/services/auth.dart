@@ -27,6 +27,8 @@ class AuthService {
   List selectedRemindingDate;
   List selectedAssetsType = [];
   List hasRemovedNotif = <bool>[];
+  List downloadURLs = [];
+  List uploadedFileNames = [];
 
   // Firebase user one-time fetch
   Future<FirebaseUser> get getUser => _auth.currentUser();
@@ -63,6 +65,8 @@ class AuthService {
     this.recieveNotifications = true;
     this.hasRemovedNotif = [false];
     this.address = null;
+    this.uploadedFileNames = providerData.uploadedFileNames;
+    this.downloadURLs = providerData.downloadURLs;
 
     // Set reminder for this Asset:
     providerData.scheduleNotifications();
@@ -71,11 +75,11 @@ class AuthService {
   // Set onboarding complete in users Collection for when the user completes the onboarding
   // And also upload selected data to Firebase
   Future<void> setOnboardingComplete(
-    String selectedAssetText,
-    String selectedAssetType,
-    DateTime selectedInstalledDate,
-    DateTime selectedReminderDate,
-  ) async {
+      String selectedAssetText,
+      String selectedAssetType,
+      DateTime selectedInstalledDate,
+      DateTime selectedReminderDate,
+      {BuildContext context}) async {
     FirebaseUser user = await getUser;
     print('Setting onboarding complete with type: $selectedAssetType');
     await _db.collection('users').document(user.uid).setData(
@@ -89,6 +93,8 @@ class AuthService {
         'recieveNotifications': true,
         'address': null,
         'hasRemovedNotif': [false],
+        'downloadURLs': downloadURLs,
+        'uploadedFileNames': uploadedFileNames,
       },
     );
   }
@@ -184,6 +190,8 @@ class AuthService {
         this.recieveNotifications = ds.data['recieveNotifications'];
         this.address = ds.data['address'];
         this.hasRemovedNotif = ds.data['hasRemovedNotif'];
+        this.uploadedFileNames = ds.data['uploadedFileNames'];
+        this.downloadURLs = ds.data['downloadURLs'];
       }
     }
   }
@@ -207,7 +215,14 @@ class AuthService {
   Future<void> deleteUser(BuildContext ctx) async {
     FirebaseUser user = await getUser;
     try {
-      await Provider.of<MainProvider>(ctx, listen: false).removeAllNotifications();
+      final providerData = Provider.of<MainProvider>(ctx, listen: false);
+      await providerData.removeAllNotifications();
+      providerData.hasInitFirebaseStorage = false;
+      providerData.dataConfigured = false;
+      providerData.downloadURLs = [];
+      providerData.uploadedFileNames = [];
+      providerData.auth.uploadedFileNames = [];
+      providerData.auth.uploadedFileNames = [];
       await user.delete();
     } catch (e) {
       print('Error Deleting User!');

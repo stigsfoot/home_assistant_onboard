@@ -1,7 +1,13 @@
+import 'dart:math';
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import '../services/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
+import '../services/services.dart';
 import '../providers/mainProvider.dart';
 
 class OnboardingDateScreen extends StatefulWidget {
@@ -29,7 +35,80 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
 
   TextEditingController textController = TextEditingController();
 
-  nextScreen(BuildContext ctx, AuthService auth) {
+  final picker = ImagePicker();
+  bool hasPickedImage = false;
+  File pickedImage;
+  String selectedSource;
+  bool isUploading = false;
+
+  Future<void> pickImageCamera() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.camera,
+      imageQuality: 70,
+    );
+
+    if (pickedFile != null) {
+      setState(
+        () {
+          final File file = File(pickedFile.path);
+          hasPickedImage = true;
+          pickedImage = file;
+          selectedSource = 'Camera';
+          print('Image Selected from Camera!');
+        },
+      );
+    } else {
+      print('No image selected...');
+    }
+  }
+
+  Future<void> pickImageGallery() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,
+    );
+
+    if (pickedFile != null) {
+      setState(
+        () {
+          final File file = File(pickedFile.path);
+          hasPickedImage = true;
+          pickedImage = file;
+          selectedSource = 'Gallery';
+          print('Image Selected from Gallery!');
+        },
+      );
+    } else {
+      print('No image selected...');
+    }
+  }
+
+  Future<void> pickFile() async {
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowMultiple: false,
+      allowedExtensions: [
+        'pdf',
+        'doc',
+      ],
+    );
+
+    if (result != null) {
+      setState(
+        () {
+          File file = File(result.files.single.path);
+          hasPickedImage = true;
+          pickedImage = file;
+          selectedSource = 'File Manager';
+          print('File Selected from File Manager!');
+        },
+      );
+    } else {
+      print('No file Selected...');
+    }
+  }
+
+  Future<void> nextScreen(BuildContext ctx, AuthService auth) async {
     if (!hasSelectedInstalledDate || !hasSelectedRemindedDate) {
       Scaffold.of(ctx).removeCurrentSnackBar();
       Scaffold.of(ctx).showSnackBar(
@@ -61,27 +140,119 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
         newName = widget.selectedAssetText;
         print(widget.selectedAssetText);
       }
-      // Set onboarding as completed Locally
-      // And also set the vaiables locally
-      auth.setOnboardingCompleteLocally(
-        newName,
-        widget.selectedAssetText,
-        installedDate,
-        remindedDate,
-        ctx: ctx,
-      );
-      // Set onboarding as completed in user Collection
-      // Aslo pass in the data to be uplaoded to Firebase
-      auth.setOnboardingComplete(
-        newName,
-        widget.selectedAssetText,
-        installedDate,
-        remindedDate,
-      );
-      // Navigate to the onboarding Screen again, which will detect
-      // that onboardingComplete variable is now true
-      // And it will render the home dashboard Screen
-      Navigator.of(ctx).popAndPushNamed('/onboarding');
+      final providerData = Provider.of<MainProvider>(context, listen: false);
+      // Check if Image has been selected
+      if (hasPickedImage) {
+        // Upload the Image:
+        final fileName = pickedImage.path.split('/').last;
+        final fileType = fileName.split('.').last;
+        final String currTime = DateTime.now().toString();
+        final newFileName = fileName + '--' + currTime + '.' + fileType;
+        pickedImage = await pickedImage.rename(
+          pickedImage.path.replaceFirst(fileName, newFileName),
+        );
+        print('OLD FILE NAME:');
+        print(fileName);
+        print('NEW FILE NAME:');
+        print(newFileName);
+        print('Uploading image file...');
+        print('Path:');
+        print(pickedImage.path);
+        print('File Name:');
+        print(newFileName);
+        // Show Loading Progress bar:
+        setState(
+          () {
+            isUploading = true;
+            showUploading(ctx);
+          },
+        );
+        final result = await providerData.uploadFile(
+          pickedImage,
+          {
+            'fileName': newFileName,
+            'time': currTime,
+            'source': selectedSource,
+            'path': pickedImage.path,
+          },
+        );
+        setState(
+          () {
+            isUploading = false;
+            Navigator.of(ctx).pop();
+          },
+        );
+
+        if (!result) {
+          showDialog(
+            context: ctx,
+            builder: (ctx) => AlertDialog(
+              title: Text('Failed to upload'),
+              content: Text(
+                  'Failed to upload image, please check your internet connection and try again.'),
+              actions: [
+                FlatButton(
+                  child: Text(
+                    'Ok',
+                    style: TextStyle(),
+                  ),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        } else {
+          // Set onboarding as completed Locally
+          // And also set the vaiables locally
+          auth.setOnboardingCompleteLocally(
+            newName,
+            widget.selectedAssetText,
+            installedDate,
+            remindedDate,
+            ctx: ctx,
+          );
+          // Set onboarding as completed in user Collection
+          // Aslo pass in the data to be uplaoded to Firebase
+          auth.setOnboardingComplete(
+            newName,
+            widget.selectedAssetText,
+            installedDate,
+            remindedDate,
+          );
+          // Navigate to the onboarding Screen again, which will detect
+          // that onboardingComplete variable is now true
+          // And it will render the home dashboard Screen
+          Navigator.of(ctx).popAndPushNamed('/onboarding');
+          // Navigator.of(ctx).pop();
+          // Navigator.of(ctx).pushReplacementNamed('/onboarding');
+        }
+      } else {
+        // Set onboarding as completed Locally
+        // And also set the vaiables locally
+        auth.setOnboardingCompleteLocally(
+          newName,
+          widget.selectedAssetText,
+          installedDate,
+          remindedDate,
+          ctx: ctx,
+        );
+        // Set onboarding as completed in user Collection
+        // Aslo pass in the data to be uplaoded to Firebase
+        auth.setOnboardingComplete(
+          newName,
+          widget.selectedAssetText,
+          installedDate,
+          remindedDate,
+        );
+        providerData.downloadURLs.add(null);
+        providerData.uploadedFileNames.add(null);
+        // Navigate to the onboarding Screen again, which will detect
+        // that onboardingComplete variable is now true
+        // And it will render the home dashboard Screen
+        Navigator.of(ctx).popAndPushNamed('/onboarding');
+      }
     }
   }
 
@@ -123,10 +294,42 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
     }
   }
 
+  void showUploading(BuildContext ctx) {
+    showGeneralDialog(
+      context: ctx,
+      barrierDismissible: false,
+      barrierLabel: '',
+      barrierColor: Colors.black38,
+      transitionDuration: Duration(milliseconds: 500),
+      pageBuilder: (ctx, anim1, anim2) => AlertDialog(
+        title: Text(
+          'Uploading...',
+          textAlign: TextAlign.center,
+        ),
+        content: Container(
+          height: 0.15 * MediaQuery.of(context).size.height,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+        elevation: 2,
+      ),
+      transitionBuilder: (ctx, anim1, anim2, child) => BackdropFilter(
+        filter: ImageFilter.blur(
+          sigmaX: 4 * anim1.value,
+          sigmaY: 4 * anim1.value,
+        ),
+        child: child,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final providerData = Provider.of<MainProvider>(context, listen: false);
     final AuthService auth = providerData.auth;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     Widget returnSelectedAssetIcon() {
       if (widget.selectedAsset == Assets.HVAC) {
         return Icon(
@@ -289,6 +492,66 @@ class _OnboardingDateScreenState extends State<OnboardingDateScreen> {
                 color: Colors.black87,
               ),
             ),
+            SizedBox(
+              height: 30,
+            ),
+            Center(
+              child: selectedSource == null
+                  ? Text('No file Selected')
+                  : selectedSource == 'File Manager'
+                      ? Text('File selected from File Manager')
+                      : Text('Image Selected from $selectedSource'),
+            ),
+            Expanded(
+              child: Container(),
+            ),
+            Container(
+              width: double.infinity,
+              color: Color(0xFF424242),
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  IconButton(
+                    splashRadius: 1,
+                    icon: Icon(
+                      Icons.camera_alt,
+                      size: 30,
+                    ),
+                    onPressed: () {
+                      pickImageCamera();
+                    },
+                  ),
+                  IconButton(
+                    splashRadius: 1,
+                    icon: Icon(
+                      Icons.image,
+                      size: 30,
+                    ),
+                    onPressed: () {
+                      pickImageGallery();
+                    },
+                  ),
+                  SizedBox(
+                    width: width * 0.45,
+                  ),
+                  Transform.rotate(
+                    angle: 25 * pi / 180,
+                    child: IconButton(
+                      splashRadius: 1,
+                      icon: Icon(
+                        Icons.attach_file,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        // print('Pressed !');
+                        pickFile();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

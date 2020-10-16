@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import '../services/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:firebase_storage/firebase_storage.dart';
+import '../services/services.dart';
 
 // TODO: Document
 class MainProvider with ChangeNotifier {
@@ -15,6 +18,8 @@ class MainProvider with ChangeNotifier {
   List selectedAssetType = [];
   List selectedInstalledDate;
   List selectedRemindingDate;
+  List downloadURLs = [];
+  List uploadedFileNames = [];
   bool isOnboardingComplete;
   bool isNotificationsinit = false;
   AuthService auth = AuthService();
@@ -25,6 +30,59 @@ class MainProvider with ChangeNotifier {
   bool recieveNotifications = true;
   // User's address
   String address;
+  // Reference for Firestore Storage
+  FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+  StorageReference storageRef;
+  bool hasInitFirebaseStorage = false;
+  bool dataConfigured = false;
+
+  // Function for initializing the Firebase Storage Reference:
+  Future<void> initFirebaseStorage() async {
+    if (!hasInitFirebaseStorage) {
+      print('Initializing Firebase Storage...');
+      FirebaseUser user = await auth.getUser;
+      storageRef = firebaseStorage.ref().child('users').child(user.uid);
+      print('Initialized Storage at:');
+      print(storageRef.path);
+      hasInitFirebaseStorage = true;
+    }
+  }
+
+  // Function to upload a file to Firebase Storage:
+  Future<bool> uploadFile(File file, Map<String, String> data) async {
+    print('Uploading file...');
+    // File name:
+    if (storageRef == null || !hasInitFirebaseStorage) {
+      await initFirebaseStorage();
+      hasInitFirebaseStorage = true;
+    }
+    final ref = storageRef.child(data['fileName']);
+    try {
+      await ref
+          .putFile(
+            file,
+            StorageMetadata(customMetadata: data),
+          )
+          .onComplete;
+
+      // Downlaod link for the uploaded file:
+      final url = await ref.getDownloadURL();
+      print('Downlaod Link for the Uploaded file:');
+      print(url);
+      downloadURLs.add(url);
+      uploadedFileNames.add(data['fileName']);
+
+      if (selectedAssets != []) {
+        print('Updating Assets with new Uploaded File');
+        _updateAssetFirebase();
+      }
+      return true;
+    } catch (e) {
+      print('ERROR: Failed to upload File...');
+      print(e.toString());
+      return false;
+    }
+  }
 
   // Function for updating data in Firebase, it is a public function.
   Future<void> updateFirebase() async {
@@ -176,6 +234,14 @@ class MainProvider with ChangeNotifier {
     return x;
   }
 
+  Future<void> removeFile(String name) async {
+    print('Deleting File with file name:');
+    print(name);
+    print('User Storage Path:');
+    print(this.storageRef.path);
+    await this.storageRef.child(name).delete();
+  }
+
   // Function to delete existing Assets
   // Just pass in the index of the Asset,
   // The index is it's position in the List
@@ -186,6 +252,13 @@ class MainProvider with ChangeNotifier {
     this.selectedInstalledDate.removeAt(index);
     this.selectedRemindingDate.removeAt(index);
     this.hasRemovedNotif.removeAt(index);
+
+    final fileNameToRemove = uploadedFileNames[index];
+    if (fileNameToRemove != null) {
+      removeFile(fileNameToRemove);
+    }
+    this.downloadURLs.removeAt(index);
+    this.uploadedFileNames.removeAt(index);
     // Notify home.dart to Re-render home screen
     notifyListeners();
     // Update Firebase
@@ -231,6 +304,8 @@ class MainProvider with ChangeNotifier {
         'recieveNotifications': recieveNotifications,
         'address': address,
         'hasRemovedNotif': hasRemovedNotif,
+        'downloadURLs': downloadURLs,
+        'uploadedFileNames': uploadedFileNames,
       },
     );
   }

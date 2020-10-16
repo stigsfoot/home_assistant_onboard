@@ -224,18 +224,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       // return ProfileScreen();
       // Set all data in the provider
       providerData.isOnboardingComplete = true;
-      providerData.selectedAssets = providerData.auth.selectedAssets;
-      providerData.selectedInstalledDate =
-          providerData.auth.selectedInstalledDate;
-      providerData.selectedRemindingDate =
-          providerData.auth.selectedRemindingDate;
-      providerData.selectedAssetType = providerData.auth.selectedAssetsType;
-      providerData.recieveNotifications =
-          providerData.auth.recieveNotifications;
-      providerData.address = providerData.auth.address;
-      providerData.hasRemovedNotif = providerData.auth.hasRemovedNotif;
-      providerData.scheduleNotifications();
-      print('Successfully configured all data in the Provider...');
+      if (!providerData.dataConfigured) {
+        providerData.selectedAssets = providerData.auth.selectedAssets;
+        providerData.selectedInstalledDate =
+            providerData.auth.selectedInstalledDate;
+        providerData.selectedRemindingDate =
+            providerData.auth.selectedRemindingDate;
+        providerData.selectedAssetType = providerData.auth.selectedAssetsType;
+        providerData.recieveNotifications =
+            providerData.auth.recieveNotifications;
+        providerData.address = providerData.auth.address;
+        providerData.hasRemovedNotif = providerData.auth.hasRemovedNotif;
+        providerData.downloadURLs = providerData.auth.downloadURLs;
+        providerData.uploadedFileNames = providerData.auth.uploadedFileNames;
+        providerData.scheduleNotifications();
+        print('Successfully configured all data in the Provider...');
+        providerData.dataConfigured = true;
+      } else {
+        print('Retaining previous Data...');
+      }
+      providerData.initFirebaseStorage();
       return BottomNavBar();
       // Reminder: MockScreen() goes here if all else fails :D
     }

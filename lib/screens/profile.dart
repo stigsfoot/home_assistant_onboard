@@ -198,6 +198,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Colors.black87,
                 onPressed: () async {
                   await providerData.removeAllNotifications();
+                  providerData.hasInitFirebaseStorage = false;
+                  providerData.dataConfigured = false;
                   await auth.signOut();
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil('/', (route) => false);

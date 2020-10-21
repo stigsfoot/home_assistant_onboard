@@ -65,7 +65,7 @@ class MainProvider with ChangeNotifier {
           )
           .onComplete;
 
-      // Downlaod link for the uploaded file:
+      // Download link for the uploaded file:
       final url = await ref.getDownloadURL();
       print('Downlaod Link for the Uploaded file:');
       print(url);
@@ -80,6 +80,47 @@ class MainProvider with ChangeNotifier {
     } catch (e) {
       print('ERROR: Failed to upload File...');
       print(e.toString());
+      return false;
+    }
+  }
+
+  // Function to upload a file to Firebase Storage:
+  Future<bool> uploadMultiFiles(
+    File file,
+    Map<String, String> data,
+    indexOfNewList,
+  ) async {
+    print('Uploading file...');
+    // File name:
+    if (storageRef == null || !hasInitFirebaseStorage) {
+      await initFirebaseStorage();
+      hasInitFirebaseStorage = true;
+    }
+    final ref = storageRef.child(data['fileName']);
+    try {
+      await ref
+          .putFile(
+            file,
+            StorageMetadata(customMetadata: data),
+          )
+          .onComplete;
+
+      // Download link for the uploaded file:
+      final url = await ref.getDownloadURL();
+      print('Download Link for the Uploaded file:');
+      print(url);
+      downloadURLs[indexOfNewList]['data'].add(url);
+      uploadedFileNames[indexOfNewList]['data'].add(data['fileName']);
+
+      // _updateAssetFirebase();
+      // if (selectedAssets != []) {
+      //   print('Updating Assets with new Uploaded File');
+      // }
+      return true;
+    } catch (e) {
+      print('ERROR: Failed to upload File...');
+      print(e.toString());
+      print(e);
       return false;
     }
   }

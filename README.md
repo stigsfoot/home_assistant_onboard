@@ -25,6 +25,8 @@ flutter run
 
 ## Contributing
 
+See [Contributing.md](CONTRIBUTING.md) guidelines.
+
 1. Clone or fork it!
 2. Create your feature branch: `git checkout -b home_assistant_onboard`
 3. Commit your changes: `git commit -am 'Add some feature'`

@@ -1,6 +1,8 @@
 # Home Assistant Onboard (Demo App)
- ## For now, this is a Flutter+Firebase Demo App to demonstrate Firebase Privacy Extension
-The Home Assistant Scheduler is a proof of concept, expands upon my [Udacity AI Nanodegree Capstone](https://github.com/stigsfoot/Udacity-Nanodegrees/tree/master/Machine%20Learning/capstone). 
+
+## For now, this is a Flutter+Firebase Demo App to demonstrate Firebase Privacy Extension
+
+The Home Assistant Scheduler is a proof of concept, expands upon my [Udacity AI Nanodegree Capstone](https://github.com/stigsfoot/Udacity-Nanodegrees/tree/master/Machine%20Learning/capstone).
 
 The Home Assistant Scheduler is a proof of concept to enable a user (homeowner) to manually log the installation date of maintenance items in a home (internal/external HVAC, roof etc.) through an onboarding flow, see their maintenance reminder preferences listed, and be able to purge that data, including their profile permanently from the system when they need to.
 
@@ -25,6 +27,8 @@ flutter run
 
 ## Contributing
 
+See [Contributing.md](CONTRIBUTING.md) guidelines.
+
 1. Clone or fork it!
 2. Create your feature branch: `git checkout -b home_assistant_onboard`
 3. Commit your changes: `git commit -am 'Add some feature'`
@@ -37,9 +41,6 @@ flutter run
 
 > If you found this project helpful, you decide to use it to track stuff that needs maintenance in your home, or if you learned something, [consider sponsoring this project](patreon.com/stigsfoot)
 
-
 ## Credits
 
 Props to Jeff Delaney sign up as a Pro and support his [fireship.io courses](https://fireship.io).
-
-

@@ -249,6 +249,7 @@ class MainProvider with ChangeNotifier {
     @required String newAssetName,
     @required DateTime newAssetInstallDate,
     @required DateTime newAssetRemindingDate,
+    bool uploadedImages,
   }) {
     if (this.selectedAssets[index] != newAssetName ||
         this.selectedInstalledDate[index] != newAssetInstallDate ||
@@ -266,7 +267,11 @@ class MainProvider with ChangeNotifier {
       // Update data in Firebase
       _updateAssetFirebase();
     } else {
-      print('Nothing new entered...');
+      if (uploadedImages != null) {
+        _updateAssetFirebase();
+      } else {
+        print('Nothing new entered...');
+      }
     }
   }
 
@@ -294,10 +299,15 @@ class MainProvider with ChangeNotifier {
     this.selectedRemindingDate.removeAt(index);
     this.hasRemovedNotif.removeAt(index);
 
-    final fileNameToRemove = uploadedFileNames[index];
-    if (fileNameToRemove != null) {
-      removeFile(fileNameToRemove);
-    }
+    try {
+      final fileNamesToRemove = uploadedFileNames[index]['data'];
+      (fileNamesToRemove as List).forEach(
+        (file) {
+          removeFile(file);
+        },
+      );
+    } catch (e) {}
+
     this.downloadURLs.removeAt(index);
     this.uploadedFileNames.removeAt(index);
     // Notify home.dart to Re-render home screen

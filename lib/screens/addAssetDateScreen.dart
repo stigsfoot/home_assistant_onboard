@@ -84,7 +84,7 @@ class _AddAssetDateScreenState extends State<AddAssetDateScreen> {
     return AlertDialog(
       title: Text('Remove previous files'),
       content: Text(
-        'You can only upload 5 files for an Asset. Remove previous files to upload more.',
+        'You are limited to 5 files in this version. Remove previous files to upload more.',
       ),
       actions: [
         confirmButton,

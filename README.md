@@ -1,6 +1,6 @@
 # Home Assistant Onboard (Demo App)
 
-## A Firebase/Flutter powered app that demonstrates Data Governance with CloudFirestore, Storage, Serverless CloudFunctions with Firebase Extensions. 
+### A Firebase/Flutter powered app that demonstrates Data Governance with CloudFirestore, Storage, Serverless CloudFunctions with Firebase Extensions. 
 
 The Home Assistant Scheduler is a proof of concept, expands upon my [Udacity AI Nanodegree Capstone](https://github.com/stigsfoot/Udacity-Nanodegrees/tree/master/Machine%20Learning/capstone).
 

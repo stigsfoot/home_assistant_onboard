@@ -12,8 +12,8 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="home_assistant_onboard"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Home Assistant Maintenance Reminders"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

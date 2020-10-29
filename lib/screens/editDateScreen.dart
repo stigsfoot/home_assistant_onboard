@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:io';
 import 'dart:ui';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:photo_view/photo_view.dart';
 
 import '../services/services.dart';
 import '../providers/mainProvider.dart';
@@ -55,6 +57,8 @@ class _EditDateScreenState extends State<EditDateScreen> {
   File pickedImage;
   String selectedSource;
   bool isUploading = false;
+
+  String currDownloadingID;
 
   List fileRenderRow = <Widget>[];
 
@@ -418,6 +422,11 @@ class _EditDateScreenState extends State<EditDateScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final providerData = Provider.of<MainProvider>(context, listen: false);
     final AuthService auth = providerData.auth;
@@ -477,7 +486,8 @@ class _EditDateScreenState extends State<EditDateScreen> {
         );
       },
     );
-
+    print(
+        "''''''''''''''''''''''''''''''''''''''RERENDER''''''''''''''''''''''''''''''");
     // this.newAssetName = widget.selectedAssetText;
     // this.installedDate = providerData.selectedInstalledDate[widget.index];
     // this.remindedDate = providerData.selectedRemindingDate[widget.index];
@@ -835,65 +845,85 @@ class _EditDateScreenState extends State<EditDateScreen> {
   ) {
     return Stack(
       children: [
-        Container(
-          width: 200,
-          height: 200,
-          margin: EdgeInsets.symmetric(horizontal: 2),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Stack(
-              children: [
-                type != 'File Manager'
-                    ? Container(
-                        width: 200,
-                        height: 200,
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      )
-                    : Container(),
-                fileURL != null
-                    ? type != 'File Manager'
+        GestureDetector(
+          onTap: () {
+            // TODO: Handle Here !
+            print('Tappppppp!');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HeroPhotoViewRouteWrapper(
+                  imageProvider: NetworkImage(
+                    fileURL,
+                  ),
+                  tag: fileURL,
+                ),
+              ),
+            );
+          },
+          child: Hero(
+            tag: fileURL,
+            child: Container(
+              width: 200,
+              height: 200,
+              margin: EdgeInsets.symmetric(horizontal: 2),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Stack(
+                  children: [
+                    type != 'File Manager'
                         ? Container(
                             width: 200,
                             height: 200,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                fileURL,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          )
-                        : Container(
-                            width: 200,
-                            height: 200,
                             child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.picture_as_pdf,
-                                    size: 34,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'PDF File',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              child: CircularProgressIndicator(),
                             ),
                           )
-                    : Container(),
-              ],
+                        : Container(),
+                    fileURL != null
+                        ? type != 'File Manager'
+                            ? Container(
+                                width: 200,
+                                height: 200,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.network(
+                                    fileURL,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                width: 200,
+                                height: 200,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.picture_as_pdf,
+                                        size: 34,
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        'PDF File',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                        : Container(),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -1004,6 +1034,94 @@ class _EditDateScreenState extends State<EditDateScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class HeroPhotoViewRouteWrapper extends StatelessWidget {
+  const HeroPhotoViewRouteWrapper({
+    this.imageProvider,
+    this.backgroundDecoration,
+    this.minScale,
+    this.maxScale,
+    this.tag,
+  });
+
+  final ImageProvider imageProvider;
+  final Decoration backgroundDecoration;
+  final dynamic minScale;
+  final dynamic maxScale;
+  final String tag;
+
+  @override
+  Widget build(BuildContext context) {
+    final providerData = Provider.of<MainProvider>(context, listen: false);
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Container(
+        constraints: BoxConstraints.expand(
+          height: MediaQuery.of(context).size.height,
+        ),
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top,
+                right: 10,
+              ),
+              width: double.infinity,
+              height: 60,
+              // color: Colors.black,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      splashRadius: 30,
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.download_rounded),
+                    splashRadius: 30,
+                    onPressed: () async {
+                      String type =
+                          tag.split('?alt=')[0].split('.').last.toLowerCase();
+                      if (type != 'pdf') {
+                        providerData.donwloadFile(
+                          tag,
+                          'Image Asset ${DateTime.now().toString()}.$type',
+                          false,
+                        );
+                      } else {
+                        providerData.donwloadFile(
+                          tag,
+                          'PDF Asset ${DateTime.now().toString()}.$type',
+                          true,
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height -
+                  (60 + MediaQuery.of(context).padding.top),
+              child: PhotoView(
+                imageProvider: imageProvider,
+                backgroundDecoration: backgroundDecoration,
+                minScale: minScale,
+                maxScale: maxScale,
+                heroAttributes: PhotoViewHeroAttributes(tag: tag),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../shared/shared.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+
+import '../shared/shared.dart';
 import '../providers/mainProvider.dart';
 import './screens.dart';
 
@@ -168,12 +169,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            FittedBox(
-                              child: Text(
-                                providerData.selectedAssets[indexSortedList[0]],
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 7),
+                              child: FittedBox(
+                                child: Text(
+                                  providerData
+                                      .selectedAssets[indexSortedList[0]],
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                  ),
                                 ),
                               ),
                             ),

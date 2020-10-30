@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +9,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:dio/dio.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:path_provider/path_provider.dart' as paths;
+import 'package:downloads_path_provider/downloads_path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import '../services/services.dart';
 
 // TODO: Document
@@ -35,6 +42,110 @@ class MainProvider with ChangeNotifier {
   StorageReference storageRef;
   bool hasInitFirebaseStorage = false;
   bool dataConfigured = false;
+  bool initDownloader = false;
+  final dio = Dio();
+
+  Future<bool> _checkPermission() async {
+    if (Platform.isAndroid) {
+      final status = await Permission.storage.status;
+      if (status != PermissionStatus.granted) {
+        final result = await Permission.storage.request();
+        final result2 = await Permission.storage.request();
+        if (result == PermissionStatus.granted &&
+            result2 == PermissionStatus.granted) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  Future<void> _showDownloadNotification(
+    String songName,
+    Map<String, dynamic> payload,
+  ) async {
+    final android = AndroidNotificationDetails(
+      'channel id',
+      'channel name',
+      'channel descriptions',
+      priority: Priority.high,
+      importance: Importance.max,
+      icon: '@mipmap/launcher_icon',
+    );
+    final iOS = IOSNotificationDetails();
+    final platform = NotificationDetails(android: android, iOS: iOS);
+    final json = jsonEncode(payload);
+    final isSuccess = payload['isSuccess'];
+
+    await flutterLocalNotificationsPlugin.show(
+      0, // Notification id ???
+      isSuccess ? 'Success' : 'Failure',
+      isSuccess
+          ? 'Successfully Downloaded ' + songName
+          : 'Failed to Download ' + songName,
+      platform,
+      payload: json,
+    );
+  }
+
+  Future<void> donwloadFile(
+    String uri,
+    String fileName,
+    bool isPDF,
+  ) async {
+    final hasPermission = await _checkPermission();
+    // await _checkPermission();
+    if (hasPermission) {
+      final savePath = await paths.getApplicationDocumentsDirectory();
+      print(savePath.path);
+      String fullPath;
+      if (isPDF) {
+        // final downloadsPath = await DownloadsPathProvider.downloadsDirectory;
+        final downloadsPath = await paths.getExternalStorageDirectory();
+        fullPath = downloadsPath.path + '/' + fileName;
+        // fullPath = '/storage/emulated/0/Download/' + fileName;
+      } else {
+        fullPath = savePath.path + '/' + fileName;
+      }
+      try {
+        final res = await dio.download(
+          uri,
+          fullPath,
+          deleteOnError: true,
+          onReceiveProgress: (rcv, total) {
+            print(
+              'recieved ${rcv.toStringAsFixed(0)} out of total ${total.toStringAsFixed(0)}',
+            );
+            print(fullPath);
+
+            var currProgress = ((rcv / total) * 100).toStringAsFixed(0);
+            print(currProgress);
+          },
+        );
+        // print(res.realUri);
+
+        if (res.statusCode == 200) {
+          await _showDownloadNotification(fileName, {'isSuccess': true});
+          if (!isPDF) {
+            await GallerySaver.saveImage(fullPath);
+            print('DOWNLOADED !!!');
+          } else {
+            print('DONE PDF !!!');
+          }
+        }
+      } catch (e) {
+        print('ERROR DOWNLOADING....');
+        await _showDownloadNotification(fileName, {'isSuccess': false});
+        print(e);
+        throw e;
+      }
+    }
+  }
 
   // Function for initializing the Firebase Storage Reference:
   Future<void> initFirebaseStorage() async {

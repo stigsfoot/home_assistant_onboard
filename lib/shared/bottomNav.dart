@@ -12,6 +12,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   List<Widget> _screens = <Widget>[
     HomeScreen(),
     Scaffold(),
+    //AboutScreen(),
     ProfileScreen(),
   ];
   void changeScreen(int index) {

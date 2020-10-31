@@ -109,11 +109,32 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: statusBarHeight + 10, right: 10),
+              margin: EdgeInsets.only(
+                top: statusBarHeight + 10,
+                right: 10,
+                left: 10,
+              ),
               width: double.infinity,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  GestureDetector(
+                    onLongPress: () {
+                      print('LONG PRESS REGISTERED !');
+                      providerData.openAppStoreReview();
+                    },
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.star,
+                        size: 30,
+                        // color: Colors.yellow,
+                      ),
+                      onPressed: () {
+                        providerData.openInAppReview();
+                        // providerData.openAppStoreReview();
+                      },
+                    ),
+                  ),
                   IconButton(
                     icon: Icon(
                       Icons.notifications,

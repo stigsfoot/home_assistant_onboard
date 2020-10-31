@@ -14,6 +14,7 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart' as paths;
 import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:in_app_review/in_app_review.dart';
 
 import '../services/services.dart';
 
@@ -44,6 +45,21 @@ class MainProvider with ChangeNotifier {
   bool dataConfigured = false;
   bool initDownloader = false;
   final dio = Dio();
+  final InAppReview inAppReview = InAppReview.instance;
+
+  Future<void> openInAppReview() async {
+    if (await inAppReview.isAvailable()) {
+      await inAppReview.requestReview();
+    } else {
+      print('Not Available...');
+    }
+  }
+
+  Future<void> openAppStoreReview() async {
+    await inAppReview.openStoreListing(
+      appStoreId: 'com.sandbox.home_assistant_onboard',
+    );
+  }
 
   Future<bool> _checkPermission() async {
     if (Platform.isAndroid) {

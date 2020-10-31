@@ -622,7 +622,7 @@ class _EditDateScreenState extends State<EditDateScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Date Installed: ${hasSelectedInstalledDate ? DateFormat('M/d/y').format(installedDate).toString() : ''}',
+                              'Date Installed (or Last Maintained): ${hasSelectedInstalledDate ? DateFormat('M/d/y').format(installedDate).toString() : ''}',
                               style: TextStyle(
                                 fontSize: 18,
                                 // fontWeight: FontWeight.bold,

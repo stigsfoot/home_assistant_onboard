@@ -6,6 +6,8 @@ The Home Assistant Scheduler is a proof of concept, expands upon my [Udacity AI 
 
 The Home Assistant & Reminder System is a proof of concept to enable a user (homeowner) to manually log the installation date of maintenance items in a home (internal/external HVAC, roof etc.) through an onboarding flow, see their maintenance reminder preferences listed, and be able to purge that data, including their profile permanently from the system when they need to.
 
+Internal Testing group: [Download it on Google Play](https://play.google.com/store/apps/details?id=com.sandbox.home_assistant_onboard&ah=LzH8gXFzK1IcOQAo6JneHamwQUM)
+
 ### 3 core objectives
 
 **Authenticate** - Firebase Auth (Email/Google/Anonym)

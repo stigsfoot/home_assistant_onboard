@@ -196,6 +196,12 @@ class MainProvider with ChangeNotifier {
       final url = await ref.getDownloadURL();
       print('Downlaod Link for the Uploaded file:');
       print(url);
+      print('DATA HERE:');
+      print(data);
+      print('DOWNLOAD URLS HERE:');
+      print(downloadURLs);
+      print('UPLOADED FILE NAMES HERE:');
+      print(uploadedFileNames);
       downloadURLs.add(url);
       uploadedFileNames.add(data['fileName']);
 
@@ -207,6 +213,7 @@ class MainProvider with ChangeNotifier {
     } catch (e) {
       print('ERROR: Failed to upload File...');
       print(e.toString());
+      print(e);
       return false;
     }
   }
@@ -224,6 +231,7 @@ class MainProvider with ChangeNotifier {
       hasInitFirebaseStorage = true;
     }
     final ref = storageRef.child(data['fileName']);
+    print('UPLOADING MULTI IMAGES !');
     try {
       await ref
           .putFile(
@@ -236,10 +244,25 @@ class MainProvider with ChangeNotifier {
       final url = await ref.getDownloadURL();
       print('Download Link for the Uploaded file:');
       print(url);
-      downloadURLs[indexOfNewList]['data'].add(url);
-      uploadedFileNames[indexOfNewList]['data'].add(data['fileName']);
+      print('DATA HERE:');
+      print(data);
+      print('DOWNLOAD URLS HERE:');
+      print(downloadURLs);
+      print('UPLOADED FILE NAMES HERE:');
+      print(uploadedFileNames);
+      try {
+        downloadURLs[indexOfNewList]['data'].add(url);
+        uploadedFileNames[indexOfNewList]['data'].add(data['fileName']);
+      } catch (e) {
+        downloadURLs[indexOfNewList] = {
+          'data': [url],
+        };
+        uploadedFileNames[indexOfNewList] = {
+          'data': [data['fileName']],
+        };
+      }
 
-      // _updateAssetFirebase();
+      _updateAssetFirebase();
       // if (selectedAssets != []) {
       //   print('Updating Assets with new Uploaded File');
       // }

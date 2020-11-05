@@ -443,13 +443,15 @@ class _EditDateScreenState extends State<EditDateScreen> {
     try {
       uploadedImageName = providerData.uploadedFileNames[widget.index]['data'];
       uploadedImageURL = providerData.downloadURLs[widget.index]['data'];
+      print(uploadedImageName);
       print('Uploaded File Names:');
       print(uploadedImageName);
       print('Uploaded Download Links:');
       print(uploadedImageURL);
       hasImages = true;
     } catch (e) {
-      print('No Image uploaded for this Asset...');
+      print(e);
+      print('No Network Image uploaded for this Asset to show here...');
       hasImages = false;
     }
 

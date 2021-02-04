@@ -8,6 +8,8 @@ The Home Assistant & Reminder System is a proof of concept to enable a user (hom
 
 Internal Testing group: [Download it on Google Play](https://play.google.com/store/apps/details?id=com.sandbox.home_assistant_onboard&ah=LzH8gXFzK1IcOQAo6JneHamwQUM)
 
+Register to test: [Google Play Sign-up](https://play.google.com/apps/internaltest/4698164325108013632)
+
 ### 3 core objectives
 
 **Authenticate** - Firebase Auth (Email/Google/Anonym)
